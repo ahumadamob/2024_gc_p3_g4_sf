@@ -1,59 +1,36 @@
-package com.progra3.proyecto;
+package com.progra3.proyecto.Entity;
+
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 public class CategoriaProducto {
-	public int idCatProducto;
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long idCatProducto;
 	public String nombreProduct;
 	public String descripcionProduct;
-	
-	
-		//CONSTRUCTOR VACIO//
 	
 	public CategoriaProducto() {
 		
 	}
-
-
-		//CONSTRUCTOR SOBRECARGADO//
-	
-	public CategoriaProducto(int idCatProducto, String nombreProduct, String descripcionProduct) {
-		this.idCatProducto = idCatProducto;
-		this.nombreProduct = nombreProduct;
-		this.descripcionProduct = descripcionProduct;
-	}
-
-
 		//GETTERS AND SETTERS//
 	
-	public int getIdCatProducto() {
+	public Long getIdCatProducto() {
 		return idCatProducto;
 	}
-
-
-
-	public void setIdCatProducto(int idCatProducto) {
+	public void setIdCatProducto(Long idCatProducto) {
 		this.idCatProducto = idCatProducto;
 	}
-
-
-
 	public String getNombreProduct() {
 		return nombreProduct;
 	}
-
-
-
 	public void setNombreProduct(String nombreProduct) {
 		this.nombreProduct = nombreProduct;
 	}
-
-
-
 	public String getDescripcionProduct() {
 		return descripcionProduct;
 	}
-
-
-
 	public void setDescripcionProduct(String descripcionProduct) {
 		this.descripcionProduct = descripcionProduct;
 	}
