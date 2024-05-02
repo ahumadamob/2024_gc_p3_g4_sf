@@ -16,25 +16,6 @@ public class restaurante {
 		private int atencion;
 		private String estado;
 		
-		// Constructor Vacio
-		
-		public restaurante() {
-			
-		}
-		// Constructores sobrecargados
-		
-		public restaurante(Long id, String nombre, String direccion, String tipoCocina, String horarioAtencion,
-				int atencion, String estado) {
-			
-			this.id = id;
-			this.nombre = nombre;
-			this.direccion = direccion;
-			this.tipoCocina = tipoCocina;
-			this.horarioAtencion = horarioAtencion;
-			this.atencion = atencion;
-			this.estado = estado;
-		}
-
 		
 		// Getters y Setters
 		public Long getId() {
