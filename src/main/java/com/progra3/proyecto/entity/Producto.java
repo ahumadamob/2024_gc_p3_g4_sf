@@ -17,7 +17,8 @@ public class Producto {
 	private float precio;
 	private String categoria;
 	//private CategoriaProducto categoria;
-	private Disponibilidad disponibilidad;
+	private String disponibilidad;
+	//private Disponibilidad disponibilidad;
 	private String restaurante;
 	//private Restaurante restaurante;
 	
@@ -47,14 +48,27 @@ public class Producto {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-	
-	
-	public Disponibilidad getDisponibilidad() {
+	public String getCategoria() {
+		return categoria;
+	}
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+	public String getDisponibilidad() {
 		return disponibilidad;
 	}
-	public void setDisponibilidad(Disponibilidad disponibilidad) {
+	public void setDisponibilidad(String disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
+	public String getRestaurante() {
+		return restaurante;
+	}
+	public void setRestaurante(String restaurante) {
+		this.restaurante = restaurante;
+	}
+	
+	
+	
 	
 	
 	
