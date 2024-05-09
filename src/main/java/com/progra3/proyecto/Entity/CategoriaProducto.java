@@ -11,9 +11,6 @@ public class CategoriaProducto {
 	public String nombreProduct;
 	public String descripcionProduct;
 	
-	public CategoriaProducto() {
-		
-	}
 		//GETTERS AND SETTERS//
 	
 	public Long getIdCatProducto() {
@@ -34,13 +31,4 @@ public class CategoriaProducto {
 	public void setDescripcionProduct(String descripcionProduct) {
 		this.descripcionProduct = descripcionProduct;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-
 }
