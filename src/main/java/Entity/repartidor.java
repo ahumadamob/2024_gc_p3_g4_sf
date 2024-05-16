@@ -12,34 +12,20 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@Table (name = "repartidor")
-public class repartidor {
+
+public class Repartidor {
 
 	
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name="nombre")
 	private String nombre;
-	
-	@Column(name="telefono")
 	private int telefono;
-	
-	@Column(name="vehiculoAsignado")
 	private String vehiculoAsignado;
-	
-	@Column(name="estado")
 	private String estado;
 
-	public repartidor(Integer id, String nombre, int telefono, String vehiculoAsignado, String estado) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.telefono = telefono;
-		this.vehiculoAsignado = vehiculoAsignado;
-		this.estado = estado;
-	}
+	
 
 	public Integer getId() {
 		return id;
