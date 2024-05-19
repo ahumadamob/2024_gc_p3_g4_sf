@@ -1,4 +1,4 @@
-package com.progra3.proyecto.Entity;
+package com.progra3.proyecto.entity;
 import jakarta.persistence.*;
 @Entity
 @Table

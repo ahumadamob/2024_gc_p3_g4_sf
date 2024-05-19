@@ -1,4 +1,4 @@
-package Entity;
+package com.progra3.proyecto.entity;
 
 
 
