@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class usuario {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,11 +17,11 @@ public class usuario {
     private String telefono;
     private String rol;
 
-    public usuario() {
+    public Usuario() {
 
     }
 
-    public usuario(String nombre, String correoElectronico, String contraseña, String direccion, String telefono, String rol) {
+    public Usuario(String nombre, String correoElectronico, String contraseña, String direccion, String telefono, String rol) {
         this.nombre = nombre;
         this.correoElectronico = correoElectronico;
         this.contraseña = contraseña;
