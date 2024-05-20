@@ -1,5 +1,6 @@
 package com.progra3.proyecto.entity;
 
+import java.util.List;
 import jakarta.persistence.*;
 
 
@@ -16,7 +17,10 @@ public class Restaurante {
 		private int atencion;
 		private String estado;
 		
-		
+		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+		    private List<Pedido> pedidos;
+		 
+	
 		// Getters y Setters
 		public Long getId() {
 			return id;
