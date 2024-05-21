@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Producto {
@@ -22,7 +24,9 @@ public class Producto {
 	private String restaurante;
 	//private Restaurante restaurante;
 	
-	
+	 @ManyToOne
+	 @JoinColumn(name = "categoria_id")
+	 private CategoriaProducto categoriaproducto;
 	// getter & setter
 	public Long getId() {
 		return id;
@@ -66,12 +70,5 @@ public class Producto {
 	public void setRestaurante(String restaurante) {
 		this.restaurante = restaurante;
 	}
-	
-	
-	
-	
-	
-	
-	
 	
 }
