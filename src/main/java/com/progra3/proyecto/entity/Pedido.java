@@ -1,39 +1,18 @@
 package com.progra3.proyecto.entity;
 import jakarta.persistence.*;
+
 @Entity
-@Table
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
+	
 	private int idPedido;
-	@Column
 	private String productos;
-	@Column
 	private String estado;
-	@Column
 	private String direccionEntrega;
-	@Column
 	private String metodoPago;
-	@Column
 	private String cliente;
-	@Column
 	private String restaurante;
-	
-	//Constructors
-	public Pedido() {
-	}
-	
-	public Pedido(int idPedido, String productos, String estado, String direccionEntrega, String metodoPago,
-			String cliente, String restaurante) {
-		this.idPedido = idPedido;
-		this.productos = productos;
-		this.estado = estado;
-		this.direccionEntrega = direccionEntrega;
-		this.metodoPago = metodoPago;
-		this.cliente = cliente;
-		this.restaurante = restaurante;
-	}
 	
 	//Getter and Setter
 	public int getIdPedido() {

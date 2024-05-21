@@ -17,20 +17,6 @@ public class Usuario {
     private String telefono;
     private String rol;
 
-    public Usuario() {
-
-    }
-
-    public Usuario(String nombre, String correoElectronico, String contraseña, String direccion, String telefono, String rol) {
-        this.nombre = nombre;
-        this.correoElectronico = correoElectronico;
-        this.contraseña = contraseña;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.rol = rol;
-    }
-
-
 
     public Long getId() {
         return id;

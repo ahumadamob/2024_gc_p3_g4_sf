@@ -1,14 +1,12 @@
-package com.progra3.proyecto.entity;
+ package com.progra3.proyecto.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
 
 @Entity
 public class Producto {
 
-	// atributos
+	//Atributos
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
@@ -19,13 +17,18 @@ public class Producto {
 	//private CategoriaProducto categoria;
 	private String disponibilidad;
 	//private Disponibilidad disponibilidad;
-	private String restaurante;
-	//private Restaurante restaurante;
 	
+	//Relación
+	@ManyToOne
+	@JoinColumn(name="restaurante_id")
+	private Restaurante restaurante;
 	
 	// getter & setter
 	public Long getId() {
 		return id;
+	}
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -60,12 +63,7 @@ public class Producto {
 	public void setDisponibilidad(String disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
-	public String getRestaurante() {
-		return restaurante;
-	}
-	public void setRestaurante(String restaurante) {
-		this.restaurante = restaurante;
-	}
+
 	
 	
 	

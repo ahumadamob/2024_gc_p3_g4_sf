@@ -1,5 +1,7 @@
 package com.progra3.proyecto.entity;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 
 
@@ -8,7 +10,6 @@ public class Restaurante {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
-		
 		private String nombre;
 		private String direccion;
 		private String tipoCocina;
@@ -16,10 +17,22 @@ public class Restaurante {
 		private int atencion;
 		private String estado;
 		
+		//Relación
+		@OneToMany(mappedBy="restaurante")
+		private List<Producto> productos;
+		
 		
 		// Getters y Setters
 		public Long getId() {
 			return id;
+		}
+
+		public List<Producto> getProductos() {
+			return productos;
+		}
+
+		public void setProductos(List<Producto> productos) {
+			this.productos = productos;
 		}
 
 		public void setId(Long id) {
