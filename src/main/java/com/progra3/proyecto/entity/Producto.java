@@ -7,7 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Producto {
@@ -22,8 +22,8 @@ public class Producto {
     private String disponibilidad;
     private String restaurante;
 
-    @OneToMany(mappedBy = "producto")
-    private Set<PedidoProducto> pedidoProductos;
+    @ManyToMany(mappedBy = "productosRelacionados")
+    private Set<Pedido> pedidos;
 
     // Getters y setters
     public Long getId() {
@@ -82,11 +82,4 @@ public class Producto {
         this.restaurante = restaurante;
     }
 
-    public Set<PedidoProducto> getPedidoProductos() {
-        return pedidoProductos;
-    }
-
-    public void setPedidoProductos(Set<PedidoProducto> pedidoProductos) {
-        this.pedidoProductos = pedidoProductos;
-    }
 }

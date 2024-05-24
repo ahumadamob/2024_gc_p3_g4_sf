@@ -17,8 +17,14 @@ public class Pedido {
     private String cliente;
     private String restaurante;
 
-    @OneToMany(mappedBy = "pedido")
-    private Set<PedidoProducto> pedidoProductos;
+    @ManyToMany
+    @JoinTable(
+        name = "PedidoProducto",
+        joinColumns = @JoinColumn(name = "pedido_id"),
+        inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private Set<Producto> productosRelacionados;
+
 
     public int getIdPedido() {
         return idPedido;
@@ -74,13 +80,5 @@ public class Pedido {
 
     public void setRestaurante(String restaurante) {
         this.restaurante = restaurante;
-    }
-
-    public Set<PedidoProducto> getPedidoProductos() {
-        return pedidoProductos;
-    }
-
-    public void setPedidoProductos(Set<PedidoProducto> pedidoProductos) {
-        this.pedidoProductos = pedidoProductos;
     }
 }
