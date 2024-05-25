@@ -1,10 +1,10 @@
-package entitiy;
+package com.progra3.proyecto.entity;
 
 import jakarta.persistence.*;
 
 
 @Entity
-public class restaurante {
+public class Restaurante {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;

@@ -23,7 +23,7 @@ public class Pedido {
 	//private String cliente;
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "fk_usuario")
-	private usuario usuario;
+	private Usuario usuario;
 	
 	private String restaurante;
 
@@ -69,11 +69,11 @@ public class Pedido {
 		this.metodoPago = metodoPago;
 	}
 
-	public usuario getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(usuario usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 
