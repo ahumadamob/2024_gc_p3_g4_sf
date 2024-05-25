@@ -22,10 +22,9 @@ public class Producto {
     private String disponibilidad;
     private String restaurante;
 
-    @ManyToMany(mappedBy = "productosRelacionados")
+    @ManyToMany(mappedBy = "productos")
     private Set<Pedido> pedidos;
 
-    // Getters y setters
     public Long getId() {
         return id;
     }

@@ -9,8 +9,7 @@ public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPedido;
-
-    private String productos;
+    
     private String estado;
     private String direccionEntrega;
     private String metodoPago;
@@ -23,7 +22,7 @@ public class Pedido {
         joinColumns = @JoinColumn(name = "pedido_id"),
         inverseJoinColumns = @JoinColumn(name = "producto_id")
     )
-    private Set<Producto> productosRelacionados;
+    private Set<Producto> productos;
 
 
     public int getIdPedido() {
@@ -32,14 +31,6 @@ public class Pedido {
 
     public void setIdPedido(int idPedido) {
         this.idPedido = idPedido;
-    }
-
-    public String getProductos() {
-        return productos;
-    }
-
-    public void setProductos(String productos) {
-        this.productos = productos;
     }
 
     public String getEstado() {
