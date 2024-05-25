@@ -27,6 +27,9 @@ public class Pedido {
 	
 	private String restaurante;
 
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 	
 	// getter & setter
 	public int getIdPedido() {
