@@ -1,6 +1,7 @@
 package com.progra3.proyecto.entity;
 
 import java.util.List;
+
 import jakarta.persistence.*;
 
 
@@ -21,9 +22,22 @@ public class Restaurante {
 		    private List<Pedido> pedidos;
 		 
 	
+		//Relación
+		@OneToMany(mappedBy="restaurante")
+		private List<Producto> productos;
+		
+		
 		// Getters y Setters
 		public Long getId() {
 			return id;
+		}
+
+		public List<Producto> getProductos() {
+			return productos;
+		}
+
+		public void setProductos(List<Producto> productos) {
+			this.productos = productos;
 		}
 
 		public void setId(Long id) {
