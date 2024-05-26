@@ -10,6 +10,7 @@ public class Restaurante {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
+		
 		private String nombre;
 		private String direccion;
 		private String tipoCocina;
@@ -17,6 +18,10 @@ public class Restaurante {
 		private int atencion;
 		private String estado;
 		
+		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+		    private List<Pedido> pedidos;
+		 
+	
 		//Relación
 		@OneToMany(mappedBy="restaurante")
 		private List<Producto> productos;
