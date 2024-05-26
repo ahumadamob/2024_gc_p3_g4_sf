@@ -1,4 +1,5 @@
 package com.progra3.proyecto.entity;
+import jakarta.persistence.*;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -9,7 +10,17 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@Table
 public class Pedido {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idPedido;
+    
+    private String estado;
+    private String direccionEntrega;
+    private String metodoPago;
+    private String cliente;
+    private String restaurante;
 	
 	// atributos
 	@Id
@@ -27,6 +38,13 @@ public class Pedido {
 	
 	private String restaurante;
 
+    @ManyToMany
+    @JoinTable(
+        name = "PedidoProducto",
+        joinColumns = @JoinColumn(name = "pedido_id"),
+        inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private Set<Producto> productos;
     @ManyToOne
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
@@ -36,60 +54,52 @@ public class Pedido {
 		return idPedido;
 	}
 
-	public void setIdPedido(int idPedido) {
-		this.idPedido = idPedido;
-	}
 
-	public String getProductos() {
-		return productos;
-	}
+    public int getIdPedido() {
+        return idPedido;
+    }
 
-	public void setProductos(String productos) {
-		this.productos = productos;
-	}
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
+    }
 
-	public String getEstado() {
-		return estado;
-	}
+    public String getEstado() {
+        return estado;
+    }
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
-	public String getDireccionEntrega() {
-		return direccionEntrega;
-	}
+    public String getDireccionEntrega() {
+        return direccionEntrega;
+    }
 
-	public void setDireccionEntrega(String direccionEntrega) {
-		this.direccionEntrega = direccionEntrega;
-	}
+    public void setDireccionEntrega(String direccionEntrega) {
+        this.direccionEntrega = direccionEntrega;
+    }
 
-	public String getMetodoPago() {
-		return metodoPago;
-	}
+    public String getMetodoPago() {
+        return metodoPago;
+    }
 
-	public void setMetodoPago(String metodoPago) {
-		this.metodoPago = metodoPago;
-	}
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public String getCliente() {
+        return cliente;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
 
-	public String getRestaurante() {
-		return restaurante;
-	}
+    public String getRestaurante() {
+        return restaurante;
+    }
 
-	public void setRestaurante(String restaurante) {
-		this.restaurante = restaurante;
-	}
-	
-	
-	
-	
-
+    public void setRestaurante(String restaurante) {
+        this.restaurante = restaurante;
+    }
 }
