@@ -1,10 +1,16 @@
 package com.progra3.proyecto.entity;
-
-import java.util.Set;
-
 import jakarta.persistence.*;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 @Entity
+@Table
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +21,22 @@ public class Pedido {
     private String metodoPago;
     private String cliente;
     private String restaurante;
+	
+	// atributos
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int idPedido;
+	private String productos;
+	private String estado;
+	private String direccionEntrega;
+	private String metodoPago;
+	
+	//private String cliente;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "fk_usuario")
+	private Usuario usuario;
+	
+	private String restaurante;
 
     @ManyToMany
     @JoinTable(
@@ -23,6 +45,14 @@ public class Pedido {
         inverseJoinColumns = @JoinColumn(name = "producto_id")
     )
     private Set<Producto> productos;
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
+	
+	// getter & setter
+	public int getIdPedido() {
+		return idPedido;
+	}
 
 
     public int getIdPedido() {
