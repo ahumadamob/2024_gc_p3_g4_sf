@@ -14,31 +14,44 @@ public class CategoriaProducto {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
-	public String nombreProduct;
-	public String descripcionProduct;
+	public String nombre;
+	public String descripcion;
 	
 	 @OneToMany(mappedBy = "categoriaproducto", cascade = CascadeType.ALL, orphanRemoval = true)
 	    private List<Producto> productos;
-	
-		//GETTERS AND SETTERS//
-	
+	 
+	//GETTERS AND SETTERS//
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getNombreProduct() {
-		return nombreProduct;
+
+	public String getNombre() {
+		return nombre;
 	}
-	public void setNombreProduct(String nombreProduct) {
-		this.nombreProduct = nombreProduct;
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
-	public String getDescripcionProduct() {
-		return descripcionProduct;
+
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDescripcionProduct(String descripcionProduct) {
-		this.descripcionProduct = descripcionProduct;
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public List<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(List<Producto> productos) {
+		this.productos = productos;
 	}
 
 }
