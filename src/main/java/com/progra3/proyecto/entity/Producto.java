@@ -28,6 +28,12 @@ public class Producto {
 	 @JoinColumn(name = "categoria_id")
 	 private CategoriaProducto categoriaproducto;
 	// getter & setter
+
+
+	@ManyToOne
+	@JoinColumn(name="restaurante_id")
+	private Restaurante restaurante;
+
 	public Long getId() {
 		return id;
 	}
@@ -64,11 +70,20 @@ public class Producto {
 	public void setDisponibilidad(String disponibilidad) {
 		this.disponibilidad = disponibilidad;
 	}
-	public String getRestaurante() {
+
+	public Restaurante getRestaurante() {
 		return restaurante;
 	}
-	public void setRestaurante(String restaurante) {
+
+	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

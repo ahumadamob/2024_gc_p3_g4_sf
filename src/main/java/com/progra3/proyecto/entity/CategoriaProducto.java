@@ -1,4 +1,3 @@
-package com.progra3.proyecto.entity;
 
 import java.util.List;
 

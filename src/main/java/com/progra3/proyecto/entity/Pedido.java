@@ -1,83 +1,103 @@
 package com.progra3.proyecto.entity;
-import jakarta.persistence.*;
+
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+
 @Entity
-@Table
 public class Pedido {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column
-	private int idPedido;
-	@Column
-	private String productos;
-	@Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String cliente;
 	private String estado;
-	@Column
 	private String direccionEntrega;
-	@Column
 	private String metodoPago;
-	@Column
-	private String cliente;
-	@Column
-	private String restaurante;
 	
-	//Constructors
-	public Pedido() {
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "fk_usuario")
+	private Usuario usuario;	
+
+    @ManyToMany
+    @JoinTable(
+        name = "PedidoProducto",
+        joinColumns = @JoinColumn(name = "pedido_id"),
+        inverseJoinColumns = @JoinColumn(name = "producto_id")
+    )
+    private Set<Producto> productos;
+    
+    @ManyToOne
+    private Restaurante restaurante;
+
+	public int getId() {
+		return id;
 	}
-	
-	public Pedido(int idPedido, String productos, String estado, String direccionEntrega, String metodoPago,
-			String cliente, String restaurante) {
-		this.idPedido = idPedido;
-		this.productos = productos;
-		this.estado = estado;
-		this.direccionEntrega = direccionEntrega;
-		this.metodoPago = metodoPago;
-		this.cliente = cliente;
-		this.restaurante = restaurante;
+
+	public void setId(int id) {
+		this.id = id;
 	}
-	
-	//Getter and Setter
-	public int getIdPedido() {
-		return idPedido;
-	}
-	public void setIdPedido(int idPedido) {
-		this.idPedido = idPedido;
-	}
-	public String getProductos() {
-		return productos;
-	}
-	public void setProductos(String productos) {
-		this.productos = productos;
-	}
-	public String getEstado() {
-		return estado;
-	}
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-	public String getDireccionEntrega() {
-		return direccionEntrega;
-	}
-	public void setDireccionEntrega(String direccionEntrega) {
-		this.direccionEntrega = direccionEntrega;
-	}
-	public String getMetodoPago() {
-		return metodoPago;
-	}
-	public void setMetodoPago(String metodoPago) {
-		this.metodoPago = metodoPago;
-	}
+
 	public String getCliente() {
 		return cliente;
 	}
+
 	public void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
-	public String getRestaurante() {
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+	public String getDireccionEntrega() {
+		return direccionEntrega;
+	}
+
+	public void setDireccionEntrega(String direccionEntrega) {
+		this.direccionEntrega = direccionEntrega;
+	}
+
+	public String getMetodoPago() {
+		return metodoPago;
+	}
+
+	public void setMetodoPago(String metodoPago) {
+		this.metodoPago = metodoPago;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public Set<Producto> getProductos() {
+		return productos;
+	}
+
+	public void setProductos(Set<Producto> productos) {
+		this.productos = productos;
+	}
+
+	public Restaurante getRestaurante() {
 		return restaurante;
 	}
-	public void setRestaurante(String restaurante) {
+
+	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
 	}
-	
-	
 }
