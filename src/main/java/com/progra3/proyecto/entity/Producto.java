@@ -21,8 +21,6 @@ public class Producto {
 	//private CategoriaProducto categoria;
 	private String disponibilidad;
 	//private Disponibilidad disponibilidad;
-	private String restaurante;
-	//private Restaurante restaurante;
 	
 	 @ManyToOne
 	 @JoinColumn(name = "categoria_id")
