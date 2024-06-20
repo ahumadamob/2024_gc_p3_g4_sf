@@ -29,7 +29,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 
 	@Override
 	public Repartidor save(Repartidor repartidor) {
-		return repo.save(null);
+		return repo.save(repartidor);
 	}
 
 	@Override
