@@ -6,36 +6,36 @@ import com.progra3.proyecto.service.IRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RestauranteServiceImpl implements IRestauranteService {
-    @Autowired
-    private RestauranteRepository restauranteRepository;
 
-    @Override
-    public List<Restaurante> getAll() {
-        return restauranteRepository.findAll();
-    }
+	@Autowired
+	private RestauranteRepository repo;
+	
+	@Override
+	public List<Restaurante> findAll() {
+		return repo.findAll();
+	}
 
-    @Override
-    public Restaurante getById(Long id) {
-        Optional<Restaurante> restaurante = restauranteRepository.findById(id);
-        return restaurante.orElse(null); 
-    }
+	@Override
+	public Restaurante findById(Long id) {
+		return repo.findById(id).orElse(null);
+	}
 
-    @Override
-    public Restaurante save(Restaurante restaurante) {
-        return restauranteRepository.save(restaurante);
-    }
+	@Override
+	public boolean exists(Long id) {
+		return id == null ? false : repo.existsById(id);
+	}
 
-    @Override
-    public void delete(Long id) {
-        restauranteRepository.deleteById(id);
-    }
+	@Override
+	public Restaurante save(Restaurante restaurante) {
+		return repo.save(restaurante);
+	}
 
-    @Override
-    public boolean exists(Long id) {
-        return restauranteRepository.existsById(id);
-    }
+	@Override
+	public void delete(Long id) {
+		repo.deleteById(id);
+	}
+
 }
