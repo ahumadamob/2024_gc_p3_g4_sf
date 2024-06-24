@@ -14,12 +14,12 @@ public class RestauranteServiceImpl implements IRestauranteService {
 	private RestauranteRepository repo;
 	
 	@Override
-	public List<Restaurante> findAll() {
+	public List<Restaurante> getAll() {
 		return repo.findAll();
 	}
 
 	@Override
-	public Restaurante findById(Long id) {
+	public Restaurante getById(Long id) {
 		return repo.findById(id).orElse(null);
 	}
 
