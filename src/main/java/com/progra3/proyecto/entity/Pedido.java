@@ -16,7 +16,7 @@ import jakarta.persistence.ManyToOne;
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String cliente;
 	private String estado;
 	private String direccionEntrega;
@@ -37,11 +37,11 @@ public class Pedido {
     @ManyToOne
     private Restaurante restaurante;
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
