@@ -26,7 +26,7 @@ public class VehiculoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vehiculo> getVehiculoById(@PathVariable("id") Long id) {
+    public ResponseEntity<Vehiculo> getVehiculoById(@PathVariable("id") Integer id) {
         Vehiculo vehiculo = vehiculoService.getById(id);
         if (vehiculo == null) {
             return ResponseEntity.notFound().build();
@@ -44,7 +44,7 @@ public class VehiculoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Vehiculo> updateVehiculo(@PathVariable("id") Long id, @RequestBody Vehiculo vehiculo) {
+    public ResponseEntity<Vehiculo> updateVehiculo(@PathVariable("id") Integer id, @RequestBody Vehiculo vehiculo) {
         if (!vehiculoService.exists(id)) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -54,7 +54,7 @@ public class VehiculoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteVehiculo(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteVehiculo(@PathVariable("id") Integer id) {
         if (!vehiculoService.exists(id)) {
             return ResponseEntity.notFound().build();
         }

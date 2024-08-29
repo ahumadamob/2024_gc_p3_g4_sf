@@ -24,52 +24,56 @@ import jakarta.validation.ConstraintViolationException;
 @RestController
 @RequestMapping(path="/restaurante")
 public class RestauranteController {
-	
-	@Autowired
-	private IRestauranteService restauranteService;
-	
-	@GetMapping
-	public ResponseEntity<APIResponse<List<Restaurante>>> getAllRestaurante() {
-		List<Restaurante> restaurante = restauranteService.getAll();
-		return 	restaurante.isEmpty()? ResponseUtil.notFound("No se encontraron restaurantes") :
-				ResponseUtil.success(restaurante);		
-	}
-	
-	@GetMapping("/{id}")
-	public ResponseEntity<APIResponse<Restaurante>> getRestauranteById(@PathVariable("id") Long id){
-		return 	restauranteService.exists(id)? ResponseUtil.success(restauranteService.getById(id)):
-				ResponseUtil.notFound("No se encontró el restaurante con id {0}", id);
-	}
-	
-	@PostMapping
-	public ResponseEntity<APIResponse<Restaurante>> createRestaurante(@RequestBody Restaurante restaurante){
-		return 	restauranteService.exists(restaurante.getId())? ResponseUtil.badRequest("Ya existe un restaurante con id {0}", restaurante.getId()):
-				ResponseUtil.success(restauranteService.save(restaurante));
-	}
-	
-	@PutMapping("/{id}")
-	public ResponseEntity<APIResponse<Restaurante>> updateRestaurante(@RequestBody Restaurante restaurante){
-		return 	restauranteService.exists(restaurante.getId())? ResponseUtil.success(restaurante):
-				ResponseUtil.badRequest("No existe un restaurante con id {0}", restaurante.getId());
-	}
-	
-	@DeleteMapping("/{id}")
-	public ResponseEntity<APIResponse<Restaurante>> deleteRestaurante(@PathVariable("id") Long id){
-		if(restauranteService.exists(id)) {
-			restauranteService.delete(id);
-			return ResponseUtil.successDeleted("Se eliminó el restaurante con el id {0}", id);
-		}else {
-			return ResponseUtil.badRequest("No se encontró el restaurante con el id {0}", id);
-		}		
-	}
-	@ExceptionHandler(Exception.class)
-    public ResponseEntity<APIResponse<Restaurante>> handleException(Exception ex) {    	
-    	return ResponseUtil.badRequest(ex.getMessage());
+
+    @Autowired
+    private IRestauranteService restauranteService;
+
+    @GetMapping
+    public ResponseEntity<APIResponse<List<Restaurante>>> getAllRestaurante() {
+        List<Restaurante> restaurante = restauranteService.getAll();
+        return restaurante.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron restaurantes") :
+                ResponseUtil.success(restaurante);
     }
-    
+
+    @GetMapping("/{id}")
+    public ResponseEntity<APIResponse<Restaurante>> getRestauranteById(@PathVariable("id") Long id) {
+        return restauranteService.exists(id) ? 
+                ResponseUtil.success(restauranteService.getById(id)) :
+                ResponseUtil.notFound("No se encontró el restaurante con id " + id);
+    }
+
+    @PostMapping
+    public ResponseEntity<APIResponse<Restaurante>> createRestaurante(@RequestBody Restaurante restaurante) {
+        return restauranteService.exists(restaurante.getId()) ? 
+                ResponseUtil.badRequest("Ya existe un restaurante con id " + restaurante.getId()) :
+                ResponseUtil.success(restauranteService.save(restaurante));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<Restaurante>> updateRestaurante(@RequestBody Restaurante restaurante) {
+        return restauranteService.exists(restaurante.getId()) ? 
+                ResponseUtil.success(restauranteService.save(restaurante)) :  // save restaurante actualizado
+                ResponseUtil.badRequest("No existe un restaurante con id " + restaurante.getId());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse<Void>> deleteRestaurante(@PathVariable("id") Long id) {
+        if (restauranteService.exists(id)) {
+            restauranteService.delete(id);
+            return ResponseUtil.successDeleted("Se eliminó el restaurante con el id " + id);
+        } else {
+            return ResponseUtil.badRequest("No se encontró el restaurante con el id " + id);
+        }
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<APIResponse<Restaurante>> handleException(Exception ex) {
+        return ResponseUtil.badRequest(ex.getMessage());
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Restaurante>> handleConstraintViolationException(ConstraintViolationException ex) {
-    	return ResponseUtil.handleConstraintException(ex);
+        return ResponseUtil.handleConstraintException(ex);
     }
-	
 }

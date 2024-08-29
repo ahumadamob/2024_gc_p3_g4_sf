@@ -39,28 +39,28 @@ public class ProductoController {
 	@GetMapping("/{id}")
 	public ResponseEntity<APIResponse<Producto>> getProjectById(@PathVariable("id") Long id){
 		return 	productoService.exists(id)? ResponseUtil.success(productoService.getById(id)):
-				ResponseUtil.notFound("No se encontró el proyecto con id {0}", id);
+				ResponseUtil.notFound("No se encontró el proyecto con id {0}");
 	}	
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Producto>> createProject(@RequestBody Producto producto){
-		return 	productoService.exists(producto.getId())? ResponseUtil.badRequest("Ya existe un proyecto con id {0}", producto.getId()):
+		return 	productoService.exists(producto.getId())? ResponseUtil.badRequest("Ya existe un proyecto con id {0}"):
 				ResponseUtil.success(productoService.save(producto));
 	}
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<APIResponse<Producto>> updateProject(@RequestBody Producto producto){
 		return 	productoService.exists(producto.getId())? ResponseUtil.success(producto):
-				ResponseUtil.badRequest("No existe un projecto con id {0}", producto.getId());
+				ResponseUtil.badRequest("No existe un projecto con id {0}");
 	}
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<APIResponse<Producto>> deleteProducto(@PathVariable("id") Long id){
 		if(productoService.exists(id)) {
 			productoService.delete(id);
-			return ResponseUtil.successDeleted("Se eliminó el proyecto con el id {0}", id);
+			return ResponseUtil.successDeleted("Se eliminó el proyecto con el id {0}");
 		}else {
-			return ResponseUtil.badRequest("No se encontró el proyecto con el id {0}", id);
+			return ResponseUtil.badRequest("No se encontró el proyecto con el id {0}");
 		}		
 	}
 	
@@ -71,7 +71,7 @@ public class ProductoController {
     
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Producto>> handleConstraintViolationException(ConstraintViolationException ex) {
-    	return ResponseUtil.handleConstraintException(ex);
-    } 	
+        return ResponseUtil.handleConstraintException(ex);
+    }
 
 }
