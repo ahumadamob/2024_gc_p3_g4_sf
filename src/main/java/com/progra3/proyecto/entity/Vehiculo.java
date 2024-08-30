@@ -10,16 +10,16 @@ public class Vehiculo {
 	 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)	
-		private Integer id;
+		private int id;
 		private String tipo;		
 		private String nombre;		
 		private String color;
 
-		public Integer getId() {
+		public int getId() {
 			return id;
 		}
 
-		public void setId(Integer id) {
+		public void setId(int id) {
 			this.id = id;
 		}
 
