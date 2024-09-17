@@ -42,6 +42,15 @@ public class PedidoController {
                 ResponseUtil.success(pedidoService.getById(id)) :
                 ResponseUtil.notFound("No se encontró el pedido con id " + id);
     }
+    
+    @GetMapping("/cliente/{cliente}")
+    public ResponseEntity<APIResponse<Object>> getPedidosPorCliente(@PathVariable String cliente) {
+        List<Pedido> pedido = pedidoService.buscarPorCliente(cliente);
+        return pedido.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron pedidos") :
+                ResponseUtil.success(pedido);
+    }
+    
 
     @PostMapping
     public ResponseEntity<APIResponse<Pedido>> createPedido(@RequestBody Pedido pedido) {

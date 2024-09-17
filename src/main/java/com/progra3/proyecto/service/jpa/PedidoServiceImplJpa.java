@@ -15,7 +15,10 @@ public class PedidoServiceImplJpa implements IPedidoService{
 	@Autowired
 	private PedidoRepository repo;
 	
-	
+	@Override
+	public List<Pedido> buscarPorCliente(String cliente) {
+        return repo.findByCliente(cliente);
+    }
 	@Override
 	public List<Pedido> getAll() {
 		return repo.findAll();
@@ -36,6 +39,7 @@ public class PedidoServiceImplJpa implements IPedidoService{
 	repo.deleteById(id);		
 	}
 
+
 	@Override
 	public boolean exists(Long id) {
 		if(id == null) {
@@ -43,6 +47,11 @@ public class PedidoServiceImplJpa implements IPedidoService{
 		}else {
 			return repo.existsById(id);
 		}
+	}
+	@Override
+	public boolean exists(String cliente) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	}
 
