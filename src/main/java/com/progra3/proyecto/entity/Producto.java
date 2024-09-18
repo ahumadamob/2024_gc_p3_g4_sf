@@ -8,7 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Producto {
+public class Producto extends BaseEntity{
 
 	// atributos
 	@Id
