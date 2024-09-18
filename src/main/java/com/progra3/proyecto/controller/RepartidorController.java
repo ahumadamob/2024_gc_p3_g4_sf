@@ -55,7 +55,7 @@ public class RepartidorController {
 	public ResponseEntity<APIResponse<Repartidor>> delete (@PathVariable ("id") Integer id) {
 		if (service.exists(id)) {
 			service.delete(id);
-			return ResponseUtil.successDeleted("repartidor ELIMINADO");
+			return ResponseUtil.successDeleted("repartidor ELIMINADO...");
 		} else {
 			return ResponseUtil.badRequest("NO hay ningun REGISTRO con ese ID");
 		}
