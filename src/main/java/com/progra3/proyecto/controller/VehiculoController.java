@@ -2,6 +2,7 @@ package com.progra3.proyecto.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.progra3.proyecto.entity.Repartidor;
@@ -10,7 +11,11 @@ import com.progra3.proyecto.service.IVehiculoService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
+
+import javax.naming.spi.DirStateFactory.Result;
 
 @RestController
 @RequestMapping("/api/v1/project/vehiculo")
@@ -61,6 +66,19 @@ public class VehiculoController {
     
     // ======================================================================================================================
     
+    
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<Vehiculo>> findByTipo(@PathVariable String tipo) {
+    	List<Vehiculo> vehiculos = vehiculoService.findByTipo(tipo);
+    	if (vehiculos.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(vehiculos);
+    }
+    
+    
+    // ======================================================================================================================
+    
 
     /*
     @PostMapping
@@ -74,7 +92,10 @@ public class VehiculoController {
     */
     
     @PostMapping
-	public ResponseEntity<APIResponse<Vehiculo>> createVehiculo(@RequestBody Vehiculo vehiculo) {
+	public ResponseEntity<APIResponse<Vehiculo>> createVehiculo(@Valid @RequestBody Vehiculo vehiculo, BindingResult result) {
+    	if (result.hasErrors()) {
+    		return ResponseUtil.badRequest("ERRORES de VALIDACION");
+    	}
 		System.out.println(vehiculo.getId() + " - " + vehiculo.getNombre() + " - " + vehiculo.getTipo());
 		return vehiculoService.exists(vehiculo.getId()) ? ResponseUtil.badRequest("ya EXISTE un VEHICULO con ese ID") :
 			                                              ResponseUtil.success(vehiculoService.save(vehiculo));
