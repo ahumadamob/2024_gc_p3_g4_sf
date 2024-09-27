@@ -19,11 +19,12 @@ import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 @RestController
-@RequestMapping (path="/api/v1/project/repartidor")
+@RequestMapping (path="/api/v1/repartidor")
 public class RepartidorController {
 	
 	@Autowired
 	private IRepartidorService service;
+	
 	
 	@GetMapping
 	public ResponseEntity<APIResponse<List<Repartidor>>> getAll() {
@@ -37,6 +38,14 @@ public class RepartidorController {
 		return service.exists(id) ? ResponseUtil.success(service.getById(id)) :
 			                        ResponseUtil.notFound("NO hay un REPARTIDOR con ese ID ...");
 	}
+	
+	@GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getRepartidorNombre(@PathVariable String nombre) {
+        List<Repartidor> repartidores = service.buscarRepartidor(nombre);
+        return repartidores.isEmpty() ? 
+                ResponseUtil.notFound("No se encontró al repartidor") : 
+                ResponseUtil.success(repartidores);
+    }
 	
 	@PostMapping
 	public ResponseEntity<APIResponse<Repartidor>> create(@RequestBody Repartidor repartidor) {

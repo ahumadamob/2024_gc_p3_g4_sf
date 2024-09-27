@@ -11,5 +11,8 @@ public interface IRepartidorService {
 	public Repartidor save (Repartidor repartidor);
 	public void delete (Integer id);
 	public boolean exists (Integer id);
+	public boolean exists (String repartidor);
+	List<Repartidor> buscarRepartidor(String nombre);
+
 
 }
