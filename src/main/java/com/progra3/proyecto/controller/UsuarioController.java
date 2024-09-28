@@ -6,11 +6,11 @@ import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import java.util.List;
 
 @RestController
@@ -20,6 +20,7 @@ public class UsuarioController {
     @Autowired
     private IUsuarioService usuarioService;
 
+    // Obtener todos los usuarios
     @GetMapping
     public ResponseEntity<APIResponse<List<Usuario>>> getAllUsuarios() {
         List<Usuario> usuarios = usuarioService.getAll();
@@ -28,26 +29,29 @@ public class UsuarioController {
             ResponseUtil.success(usuarios);
     }
 
+    // Obtener usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse<Usuario>> getUsuarioById(@PathVariable Long id) {
         if (usuarioService.exists(id)) {
             Usuario usuario = usuarioService.getById(id);
             return ResponseUtil.success(usuario);
         } else {
-            return ResponseUtil.notFound("No se encontró el usuario con id {0}");
+            return ResponseUtil.notFound("No se encontró el usuario con id " + id);
         }
     }
 
+    // Crear nuevo usuario
     @PostMapping
     public ResponseEntity<APIResponse<Usuario>> createUsuario(@RequestBody Usuario usuario) {
         if (usuarioService.exists(usuario.getId())) {
-            return ResponseUtil.badRequest("Ya existe un usuario con id {0}");
+            return ResponseUtil.badRequest("Ya existe un usuario con id " + usuario.getId());
         } else {
             Usuario savedUsuario = usuarioService.save(usuario);
             return ResponseUtil.success(savedUsuario);
         }
     }
 
+    // Actualizar usuario por ID
     @PutMapping("/{id}")
     public ResponseEntity<APIResponse<Usuario>> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         if (usuarioService.exists(id)) {
@@ -55,27 +59,45 @@ public class UsuarioController {
             Usuario updatedUsuario = usuarioService.save(usuario);
             return ResponseUtil.success(updatedUsuario);
         } else {
-            return ResponseUtil.notFound("No existe un usuario con id {0}");
+            return ResponseUtil.notFound("No existe un usuario con id " + id);
         }
     }
 
+    // Eliminar usuario por ID
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse<Void>> deleteUsuario(@PathVariable Long id) {
         if (usuarioService.exists(id)) {
             usuarioService.delete(id);
-            return ResponseUtil.successDeleted("Se eliminó el usuario con el id {0}");
+            return ResponseUtil.successDeleted("Se eliminó el usuario con el id " + id);
         } else {
-            return ResponseUtil.notFound("No se encontró el usuario con el id {0}");
+            return ResponseUtil.notFound("No se encontró el usuario con el id " + id);
         }
     }
 
+    // Obtener usuario por nombre (ignorando mayúsculas y minúsculas)
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getUsuarioPorNombre(@PathVariable String nombre) {
+        List<Usuario> usuarios = usuarioService.buscarPorNombre(nombre);
+        return usuarios.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron usuarios con el nombre especificado") :  
+                ResponseUtil.success(usuarios);
+    }
+
+    // Manejador de excepciones generales
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());
     }
 
+    // Manejador de ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
+    }
+
+    // Manejador de excepción para tipo de dato incorrecto en el @PathVariable
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<APIResponse<Void>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        return ResponseUtil.badRequest("El valor proporcionado no es del tipo correcto: " + ex.getValue());
     }
 }
