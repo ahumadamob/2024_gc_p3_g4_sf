@@ -11,15 +11,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Pedido {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private String cliente;
+    @NotNull
 	private String estado;
+    @NotNull
 	private String direccionEntrega;
+    @NotNull
 	private String metodoPago;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
