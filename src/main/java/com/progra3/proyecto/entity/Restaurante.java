@@ -3,6 +3,8 @@ package com.progra3.proyecto.entity;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 
 @Entity
@@ -10,12 +12,21 @@ public class Restaurante {
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;
+		@NotBlank(message = "El nombre del restaurante es obligatorio")
+		@Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
 		
 		private String nombre;
+	    @NotBlank(message = "La dirección es obligatoria")
 		private String direccion;
+	    
+	    @NotBlank(message = "El tipo de cocina es obligatorio")
 		private String tipoCocina;
+	    
+	    @NotBlank(message = "El horario de atención es obligatorio")
 		private String horarioAtencion;
+	    
 		private int atencion;
+		 @NotBlank(message = "El estado es obligatorio")
 		private String estado;
 		
 		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
