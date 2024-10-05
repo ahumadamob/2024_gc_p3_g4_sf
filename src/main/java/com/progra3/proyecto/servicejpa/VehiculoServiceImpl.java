@@ -23,8 +23,8 @@ public class VehiculoServiceImpl implements IVehiculoService {
 
     @Override
     public Vehiculo getById(Integer id) {
-        Optional<Vehiculo> restaurante = vehiculoRepository.findById(id);
-        return restaurante.orElse(null); 
+        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(id);
+        return vehiculo.orElse(null); 
     }
 
 	@Override
@@ -40,6 +40,11 @@ public class VehiculoServiceImpl implements IVehiculoService {
 	@Override
 	public boolean exists(Integer id) {
 		return id == null ? false : vehiculoRepository.existsById(id);
+	}
+
+	@Override
+	public List<Vehiculo> findByTipo(String tipo) {
+		return vehiculoRepository.findByTipo(tipo);
 	}
 
 }

@@ -5,9 +5,13 @@ import java.util.List;
 import com.progra3.proyecto.entity.Vehiculo;
 
 public interface IVehiculoService {
-    List<Vehiculo> getAll();
-    Vehiculo getById(Integer id);
-    Vehiculo save(Vehiculo vehiculo);
-    void delete(Integer id);
-    boolean exists(Integer id);
-  }
+	
+    public List<Vehiculo> getAll();
+    public Vehiculo getById(Integer id);
+    public Vehiculo save(Vehiculo vehiculo);
+    public void delete(Integer id);
+    public boolean exists(Integer id);
+    
+    public List<Vehiculo> findByTipo (String tipo);
+    
+}
