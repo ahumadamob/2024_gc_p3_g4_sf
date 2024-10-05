@@ -76,4 +76,11 @@ public class RestauranteController {
     public ResponseEntity<APIResponse<Restaurante>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
     }
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
+        List<Restaurante> restaurante = restauranteService.buscarPorNombre(nombre);
+        return restaurante.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron pedidos") :
+                ResponseUtil.success(restaurante);
+    }
 }

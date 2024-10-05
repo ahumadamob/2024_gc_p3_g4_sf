@@ -9,4 +9,5 @@ public interface IRestauranteService {
     Restaurante save(Restaurante restaurante);
     void delete(Long id);
     boolean exists(Long id);
+    List<Restaurante> buscarPorNombre(String nombre);
   }
