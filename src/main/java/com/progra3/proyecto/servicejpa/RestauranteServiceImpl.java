@@ -37,5 +37,8 @@ public class RestauranteServiceImpl implements IRestauranteService {
 	public void delete(Long id) {
 		repo.deleteById(id);
 	}
-
-}
+	@Override
+    public List<Restaurante> buscarPorNombre(String nombre) {
+        return repo.findByNombre(nombre);
+        }
+	}

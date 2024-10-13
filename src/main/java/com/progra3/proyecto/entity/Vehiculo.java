@@ -1,17 +1,24 @@
 package com.progra3.proyecto.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+//import jakarta.validation.constraints.NotEmpty;
 
 @Entity
-public class Vehiculo {
+public class Vehiculo extends BaseEntity{
 	 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)	
 		private int id;
-		private String tipo;		
+		
+		@NotEmpty(message = "el TIPO NO puede ser NULO ni estar VACIO")
+		private String tipo;
+		
+		@NotEmpty(message = "el TIPO NO puede ser NULO ni estar VACIO")
 		private String nombre;		
 		private String color;
 

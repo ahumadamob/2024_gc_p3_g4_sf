@@ -9,4 +9,5 @@ public interface IUsuarioService {
     Usuario save(Usuario usuario);
     void delete(Long id);
     boolean exists(Long id);
+    List<Usuario> buscarPorNombre(String nombre);
 }
