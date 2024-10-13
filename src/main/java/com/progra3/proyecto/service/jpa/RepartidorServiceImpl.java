@@ -20,7 +20,12 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	public List<Repartidor> getAll() {
 		return repo.findAll();
 	}
+	
 
+    @Override
+    public List<Repartidor> buscarRepartidor(String nombre) {
+        return repo.findByNombre(nombre);
+    }
 	@Override
 	public Repartidor getById(Integer id) {
 		Optional<Repartidor> optional = repo.findById(id);
@@ -43,6 +48,12 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	@Override
 	public boolean exists(Integer id) {
 		return (id == null) ? false : repo.existsById(id);
+	}
+
+	@Override
+	public boolean exists(String repartidor) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

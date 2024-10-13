@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 	@Entity
-public class CategoriaProducto {
+public class CategoriaProducto extends BaseEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;

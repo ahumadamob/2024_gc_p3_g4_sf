@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 
 
 @Entity
-public class Restaurante {
+public class Restaurante extends BaseEntity{
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long id;

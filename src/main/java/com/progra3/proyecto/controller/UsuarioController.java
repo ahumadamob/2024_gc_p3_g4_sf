@@ -74,30 +74,13 @@ public class UsuarioController {
         }
     }
 
-    // Obtener usuario por nombre (ignorando mayúsculas y minúsculas)
-    @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<APIResponse<Object>> getUsuarioPorNombre(@PathVariable String nombre) {
-        List<Usuario> usuarios = usuarioService.buscarPorNombre(nombre);
-        return usuarios.isEmpty() ? 
-                ResponseUtil.notFound("No se encontraron usuarios con el nombre especificado") :  
-                ResponseUtil.success(usuarios);
-    }
-
-    // Manejador de excepciones generales
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());
     }
 
-    // Manejador de ConstraintViolationException
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
-    }
-
-    // Manejador de excepción para tipo de dato incorrecto en el @PathVariable
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<APIResponse<Void>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        return ResponseUtil.badRequest("El valor proporcionado no es del tipo correcto: " + ex.getValue());
     }
 }
