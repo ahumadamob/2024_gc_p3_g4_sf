@@ -76,12 +76,4 @@ public class Producto extends BaseEntity{
 	public void setRestaurante(Restaurante restaurante) {
 		this.restaurante = restaurante;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 }
