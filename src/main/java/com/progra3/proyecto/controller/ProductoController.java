@@ -64,6 +64,14 @@ public class ProductoController {
 		}		
 	}
 	
+	@GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
+        List<Producto> restaurante = productoService.buscarPorNombre(nombre);
+        return restaurante.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron pedidos") :
+                ResponseUtil.success(restaurante);
+    }
+	
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Producto>> handleException(Exception ex) {    	
     	return ResponseUtil.badRequest(ex.getMessage());
