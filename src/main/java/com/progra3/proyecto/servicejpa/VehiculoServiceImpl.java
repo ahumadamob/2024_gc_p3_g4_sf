@@ -47,18 +47,5 @@ public class VehiculoServiceImpl implements IVehiculoService {
 	public List<Vehiculo> findByTipo(String tipo) {
 		return vehiculoRepository.findByTipo(tipo);
 	}
-	
-	@Override
-	public Restaurante getRestauranteByVehiculoId(Integer id) {
-	    Vehiculo vehiculo = vehiculoRepository.findById(id)
-	        .orElseThrow(() -> new RuntimeException("Vehículo no encontrado para el ID: " + id));
-	    
-	    Restaurante restaurante = vehiculo.getRestaurante();
-	    if (restaurante == null) {
-	        throw new RuntimeException("Restaurante no encontrado para el vehículo ID: " + id);
-	    }
-	    return restaurante;
-	}
-
 }
 

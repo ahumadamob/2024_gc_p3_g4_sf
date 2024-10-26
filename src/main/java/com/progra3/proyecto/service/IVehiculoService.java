@@ -15,6 +15,4 @@ public interface IVehiculoService {
     
     public List<Vehiculo> findByTipo (String tipo);
     
-    Restaurante getRestauranteByVehiculoId(Integer id);
-    
 }

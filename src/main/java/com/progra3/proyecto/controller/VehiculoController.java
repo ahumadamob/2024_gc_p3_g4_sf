@@ -127,14 +127,20 @@ public class VehiculoController {
 	
 	@GetMapping("/{id}/restaurante")
 	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Integer id) {
-	    try {
-	        Restaurante restaurante = vehiculoService.getRestauranteByVehiculoId(id);
-	        return ResponseUtil.success(restaurante);
-	    } catch (RuntimeException e) {
-	        return ResponseUtil.notFound(e.getMessage());
+	    
+	    if (!vehiculoService.exists(id)) {
+	        return ResponseUtil.notFound("Vehículo no encontrado para el ID: " + id);
 	    }
+	   
+	    Restaurante restaurante = vehiculoService.getById(id).getRestaurante();
+
+	    if (restaurante == null) {
+	        return ResponseUtil.notFound("Restaurante no encontrado para el vehículo ID: " + id);
+	    }
+	    
+	    return ResponseUtil.success(restaurante);
 	}
-	
+
 	// ===================================================================================================================
 	
 	
