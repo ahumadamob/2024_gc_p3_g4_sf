@@ -28,27 +28,21 @@ public class Restaurante extends BaseEntity{
 		private int atencion;
 		 @NotBlank(message = "El estado es obligatorio")
 		private String estado;
-		
-		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-		    private List<Pedido> pedidos;
 		 
-	
-		//Relación
-		@OneToMany(mappedBy="restaurante")
+			//Relación
+		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+		private List<Pedido> pedidos;
+		 
+		@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
 		private List<Producto> productos;
 		
-		
+		@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
+		private List<Repartidor> repartidores;;
+
+			
 		// Getters y Setters
 		public Long getId() {
 			return id;
-		}
-
-		public List<Producto> getProductos() {
-			return productos;
-		}
-
-		public void setProductos(List<Producto> productos) {
-			this.productos = productos;
 		}
 
 		public void setId(Long id) {
@@ -102,5 +96,32 @@ public class Restaurante extends BaseEntity{
 		public void setEstado(String estado) {
 			this.estado = estado;
 		}
+
+		public List<Pedido> getPedidos() {
+			return pedidos;
+		}
+
+		public void setPedidos(List<Pedido> pedidos) {
+			this.pedidos = pedidos;
+		}
+
+		public List<Producto> getProductos() {
+			return productos;
+		}
+
+		public void setProductos(List<Producto> productos) {
+			this.productos = productos;
+		}
+
+		public List<Repartidor> getRepartidores() {
+			return repartidores;
+		}
+
+		public void setRepartidores(List<Repartidor> repartidores) {
+			this.repartidores = repartidores;
+		}
+		
+		
+		
 		
 }

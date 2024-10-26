@@ -1,40 +1,64 @@
 package com.progra3.proyecto.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Repartidor extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
+	@NotBlank(message = "El nombre del repartidor es obligatorio")
 	private String nombre;
+	@NotNull
 	private int telefono;
+	@NotBlank(message = "El vehiculo es obligatorio")
 	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
+	@NotBlank(message = "El estado es obligatorio")
 	private String estado;             // (disponible, en camino, ocupado, etc.)
 
 	@OneToOne
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 
+	@ManyToOne
+	@JsonIgnore
+	private Restaurante restaurante;
+	
+
+	
 	public Vehiculo getVehiculo() {
 		return vehiculo;
+	}
+
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
 	}
 
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

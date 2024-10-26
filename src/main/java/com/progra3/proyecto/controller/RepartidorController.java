@@ -37,7 +37,7 @@ public class RepartidorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<APIResponse<Repartidor>> getById(@PathVariable("id") Integer id) {
+    public ResponseEntity<APIResponse<Repartidor>> getById(@PathVariable("id") Long id) {
         if (service.exists(id)) {
             return ResponseUtil.success(service.getById(id));
         } else {
@@ -65,7 +65,7 @@ public class RepartidorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<APIResponse<Repartidor>> update(@PathVariable("id") Integer id, @RequestBody Repartidor repartidor) {
+    public ResponseEntity<APIResponse<Repartidor>> update(@PathVariable("id") Long id, @RequestBody Repartidor repartidor) {
         if (service.exists(id)) {
             repartidor.setId(id); 
             Repartidor updatedRepartidor = service.save(repartidor);
@@ -76,7 +76,7 @@ public class RepartidorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse<Void>> delete(@PathVariable("id") Integer id) {
+    public ResponseEntity<APIResponse<Void>> delete(@PathVariable("id") Long id) {
         if (service.exists(id)) {
             service.delete(id);
             return ResponseUtil.successDeleted("Repartidor ELIMINADO");

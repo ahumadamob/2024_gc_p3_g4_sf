@@ -10,4 +10,6 @@ public interface IRestauranteService {
     void delete(Long id);
     boolean exists(Long id);
     List<Restaurante> buscarPorNombre(String nombre);
+    Restaurante asignarRepartidor(Long restauranteId, Long repartidorId) throws Exception;
+	void desvincularRepartidores(Long id);
   }
