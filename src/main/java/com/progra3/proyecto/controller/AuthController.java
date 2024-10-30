@@ -21,28 +21,28 @@ import com.progra3.proyecto.security.JwtUtils;
 public class AuthController {
 	
 	@Autowired
-	private AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;   // AUTENTICACION de USUARIOS
 	
 	@Autowired
-	private JwtUtils jwtUtils;
+	private JwtUtils jwtUtils;                             // GENERACION y VALIDACION de TOKENS
 	
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser (@RequestBody LoginRequest loginRequest) {
 		
+		// objeto con las CREDENCIALES de USUARIO (username, password)
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 		
+		// se establece el objeto 'authentication' en el SecurityContextHolder => USUARIO AUTENTICADO
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		
+		// generacion del TOKEN que representa la SESION del USUARIO AUTENTICADO
 		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		return ResponseEntity.ok(new JwtResponse(jwt));
+		return ResponseEntity.ok(new JwtResponse(jwt));   // objeto con el JWT a usar en las peticiones a realizar
 		
 	}
 	
 	 
-	
-	
-
 }

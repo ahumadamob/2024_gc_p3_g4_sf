@@ -17,9 +17,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 public class SecurityConfig {
+	
+	// clase q configura la SEGURIDAD de la aplicacion
 
+	// FILTRO de AUTENTICACION JWT
 	private final JwtAuthenticationFilter jwtAuthenticactionFilter;
 	
+	// constructor
 	public SecurityConfig (JwtAuthenticationFilter jwtAuthenticationFilter) {
 		this.jwtAuthenticactionFilter = jwtAuthenticationFilter;
 	}
@@ -27,18 +31,23 @@ public class SecurityConfig {
 	
 	@Bean
 	public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())   // desactiva la protección CSRF (Cross-Site Request Forgery)
+		// cadena de FILTROS de la aplicacion
+		
+		// opciones de seguridad
+		http.csrf(csrf -> csrf.disable())          // desactiva la protección CSRF (Cross-Site Request Forgery)
+		                                           // dado q usamos cabecera Authorization
 			.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/v1/project/auth/**").permitAll() // acceso libre
 														 .anyRequest().authenticated())                     // requiere autenticacion
 			.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))   // SIN estado
-			.addFilterBefore(jwtAuthenticactionFilter, UsernamePasswordAuthenticationFilter.class);         // filtro JWT
+			.addFilterBefore(jwtAuthenticactionFilter, UsernamePasswordAuthenticationFilter.class);         // filtro JWT antes de procesar las credenciales de usuario
 		
-		return http.build();   // CADENA de FILTROS configurada
+		return http.build();   // CADENA de FILTROS configurada (construida)
 	}
 	
 	
 	@Bean
 	public AuthenticationManager authenticationManager (AuthenticationConfiguration authConfig) throws Exception {
+		// AUTENTICACION de los USUARIOS
 		return authConfig.getAuthenticationManager();   // configuracion necesaria para la autenticacion
 	}
 	
@@ -49,10 +58,12 @@ public class SecurityConfig {
 		
 		UserDetails admin = User.withUsername("admin")
 				.password(passwordEncoder().encode("admin"))
+				.roles("ADMIN")
 				.build();
 		
 		UserDetails user = User.withUsername("user")
 				.password(passwordEncoder().encode("123456"))
+				.roles("USER")
 				.build();
 		
 		return new InMemoryUserDetailsManager(admin, user);

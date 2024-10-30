@@ -47,9 +47,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-<<<<<<< Updated upstream
-=======
-		
+
 		<!-- seguridad -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -80,7 +78,7 @@
     		<scope>provided</scope>
 		</dependency> 
 
->>>>>>> Stashed changes
+
 	</dependencies>
 
 	<build>

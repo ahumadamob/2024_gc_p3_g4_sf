@@ -16,7 +16,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtUtils {
 	
-	// declaro y genero una CLAVE secreta usando una funcion hash con el algoritmo HS512
+	// servicio p/ GENERAR y VALIDAR JSON Web Tokens (JWT)
+	//             extraer el NOMBRE de USUARIO
+	// decode, verify and generate JWT in:   https://jwt.io/
+	
+	// CLAVE SECRETA generada usando el algoritmo HS512, utilizada para FIRMAR el token
 	private SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 	
 	// TIEMPO de EXPIRACION del TOKEN en milisegundos
@@ -34,12 +38,12 @@ public class JwtUtils {
 				.setIssuedAt(new Date())                                             // fecha y hora en q se emite el token
 				.setExpiration(new Date((new Date().getTime() + jwtExpirationMs)))   // fecha de expiracion del token
 				.signWith(secretKey, SignatureAlgorithm.HS512)                       // firma q garantiza al token
-				.compact();                                                          // token compactado en formato String
+				.compact();                                                          // token generado en formato String
 		
 	}
 	
 	
-	// obtener NOMBRE de USUARIO del JWT
+	// obtener NOMBRE de USUARIO a partir del JWT
 	public String getUserNameFromJstToken (String token) {
 		return Jwts.parser()                // permite extraer info del token
 				.setSigningKey(secretKey)   // establece la clave q se uso para firmar el token
@@ -48,7 +52,7 @@ public class JwtUtils {
 	}
 	
 	
-	// validar JWT
+	// validar JWT 
 	public boolean validateJwtToken (String authToken) {
 		try {
 			Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);   // analiza si el token es valido
