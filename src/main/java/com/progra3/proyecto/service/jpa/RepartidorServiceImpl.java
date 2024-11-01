@@ -1,5 +1,6 @@
 package com.progra3.proyecto.service.jpa;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.repository.RepartidorRepository;
 import com.progra3.proyecto.service.IRepartidorService;
 
@@ -27,7 +29,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
         return repo.findByNombre(nombre);
     }
 	@Override
-	public Repartidor getById(Integer id) {
+	public Repartidor getById(Long id) {
 		Optional<Repartidor> optional = repo.findById(id);
 		return optional.orElse(null);
 	}
@@ -38,7 +40,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		Optional<Repartidor> optional = repo.findById(id);
 		if (optional.isPresent()) {
 			repo.deleteById(id);
@@ -46,7 +48,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	@Override
-	public boolean exists(Integer id) {
+	public boolean exists(Long id) {
 		return (id == null) ? false : repo.existsById(id);
 	}
 
@@ -55,5 +57,15 @@ public class RepartidorServiceImpl implements IRepartidorService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId) {
+	    Repartidor repartidor = repo.findById(repartidorId)
+	            .orElse(null);
+	    if (repartidor != null && repartidor.getVehiculo() != null) {
+	        return Collections.singletonList(repartidor.getVehiculo()); // Devuelve una lista con el único vehículo
+	    }
+	    return Collections.emptyList(); // Devuelve una lista vacía si no hay vehículo
+	}
+
 
 }
