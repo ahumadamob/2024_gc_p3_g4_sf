@@ -2,6 +2,7 @@ package com.progra3.proyecto.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,10 @@ public class Vehiculo extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "usuario_id") 
     private Usuario usuario;
+
+    @ManyToOne 
+    @JoinColumn(name = "restaurante_id")
+    private Restaurante restaurante;
 
     // Getters y Setters
     public int getId() {
@@ -58,6 +63,7 @@ public class Vehiculo extends BaseEntity {
         this.color = color;
     }
 
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -66,3 +72,13 @@ public class Vehiculo extends BaseEntity {
         this.usuario = usuario;
     }
 }
+
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
+}
+
