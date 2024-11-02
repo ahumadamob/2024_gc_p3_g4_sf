@@ -1,10 +1,13 @@
 package com.progra3.proyecto.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -12,11 +15,27 @@ public class Repartidor extends BaseEntity{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String nombre;
 	private int telefono;
-	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
-	private String estado;             // (disponible, en camino, ocupado, etc.)
+	private String vehiculoAsignado;   
+	private String estado;
+	
+
+	 
+	
+	@ManyToOne
+	@JsonIgnore
+	private Restaurante restaurante;
+	
+	
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
 
 	@OneToOne
 	@JoinColumn(name = "vehiculo_id")
@@ -30,11 +49,11 @@ public class Repartidor extends BaseEntity{
 		this.vehiculo = vehiculo;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

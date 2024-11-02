@@ -27,7 +27,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
         return repo.findByNombre(nombre);
     }
 	@Override
-	public Repartidor getById(Integer id) {
+	public Repartidor getById(Long id) {
 		Optional<Repartidor> optional = repo.findById(id);
 		return optional.orElse(null);
 	}
@@ -38,7 +38,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		Optional<Repartidor> optional = repo.findById(id);
 		if (optional.isPresent()) {
 			repo.deleteById(id);
@@ -46,7 +46,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	@Override
-	public boolean exists(Integer id) {
+	public boolean exists(Long id) {
 		return (id == null) ? false : repo.existsById(id);
 	}
 
@@ -56,4 +56,10 @@ public class RepartidorServiceImpl implements IRepartidorService {
 		return false;
 	}
 
+
+	
+	    @Override
+	    public List<Repartidor> buscarPorRestaurante(Long restauranteId) {
+	        return repo.findByRestauranteId(restauranteId);
+}
 }
