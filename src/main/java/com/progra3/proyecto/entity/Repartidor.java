@@ -15,7 +15,7 @@ public class Repartidor extends BaseEntity{
 	private Integer id;
 	private String nombre;
 	private int telefono;
-	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
+	//private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
 	private String estado;             // (disponible, en camino, ocupado, etc.)
 
 	@OneToOne
@@ -54,6 +54,7 @@ public class Repartidor extends BaseEntity{
 		this.telefono = telefono;
 	}
 
+	/*
 	public String getVehiculoAsignado() {
 		return vehiculoAsignado;
 	}
@@ -61,6 +62,7 @@ public class Repartidor extends BaseEntity{
 	public void setVehiculoAsignado(String vehiculoAsignado) {
 		this.vehiculoAsignado = vehiculoAsignado;
 	}
+	*/
 
 	public String getEstado() {
 		return estado;

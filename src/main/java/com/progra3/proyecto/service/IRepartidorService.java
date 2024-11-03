@@ -13,6 +13,8 @@ public interface IRepartidorService {
 	public boolean exists (Integer id);
 	public boolean exists (String repartidor);
 	List<Repartidor> buscarRepartidor(String nombre);
+	
+	//public boolean findByVehiculo_id (Integer id);
 
 
 }
