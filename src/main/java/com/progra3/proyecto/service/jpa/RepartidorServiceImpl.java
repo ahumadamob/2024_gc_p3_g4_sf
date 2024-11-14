@@ -3,10 +3,8 @@ package com.progra3.proyecto.service.jpa;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.repository.RepartidorRepository;
@@ -59,13 +57,12 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 	@Override
 	public List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId) {
-	    Repartidor repartidor = repo.findById(repartidorId)
-	            .orElse(null);
-	    if (repartidor != null && repartidor.getVehiculo() != null) {
-	        return Collections.singletonList(repartidor.getVehiculo()); // Devuelve una lista con el único vehículo
-	    }
-	    return Collections.emptyList(); // Devuelve una lista vacía si no hay vehículo
+	    Optional<Vehiculo> vehiculo = repo.findVehiculoByRepartidorId(repartidorId);
+	    return vehiculo.map(Collections::singletonList) 
+	                  .orElse(Collections.emptyList());  
 	}
+
+	
 
 
 }

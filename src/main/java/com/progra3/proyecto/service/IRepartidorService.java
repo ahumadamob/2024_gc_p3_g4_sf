@@ -14,10 +14,8 @@ public interface IRepartidorService {
 	public boolean exists (Long id);
 	public boolean exists (String repartidor);
 	List<Repartidor> buscarRepartidor(String nombre);
-//ultimo//
-
 	List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId);
 	
-
+	
 
 }

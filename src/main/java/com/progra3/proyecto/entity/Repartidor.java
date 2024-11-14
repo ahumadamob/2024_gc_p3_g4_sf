@@ -17,9 +17,8 @@ public class Repartidor extends BaseEntity{
 	private Long id;
 	private String nombre;
 	private int telefono;
-	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
-	private String estado;             // (disponible, en camino, ocupado, etc.)
-
+	private String vehiculoAsignado;   
+	private String estado;             
 	@OneToOne
 	@JsonIgnore
 	@JoinColumn(name = "vehiculo_id")
