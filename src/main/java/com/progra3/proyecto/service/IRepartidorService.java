@@ -12,9 +12,9 @@ public interface IRepartidorService {
 	public void delete (Long id);
 	public boolean exists (Long id);
 	public boolean exists (String repartidor);
-	
 	List<Repartidor> buscarRepartidor(String nombre);
-	List<Repartidor> buscarPorRestaurante(Long restauranteId);
-
+	List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId);
+	
+	
 
 }

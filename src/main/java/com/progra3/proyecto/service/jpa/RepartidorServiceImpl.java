@@ -1,12 +1,12 @@
 package com.progra3.proyecto.service.jpa;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.repository.RepartidorRepository;
 import com.progra3.proyecto.service.IRepartidorService;
 
@@ -55,6 +55,15 @@ public class RepartidorServiceImpl implements IRepartidorService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	@Override
+	public List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId) {
+	    Optional<Vehiculo> vehiculo = repo.findVehiculoByRepartidorId(repartidorId);
+	    return vehiculo.map(Collections::singletonList) 
+	                  .orElse(Collections.emptyList());  
+	}
+
+	
+
 
 
 	

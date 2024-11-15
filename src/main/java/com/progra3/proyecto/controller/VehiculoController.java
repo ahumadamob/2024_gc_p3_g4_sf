@@ -50,7 +50,7 @@ public class VehiculoController {
 	 */
 
 	@GetMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Long id) {
 		return vehiculoService.exists(id) ? ResponseUtil.success(vehiculoService.getById(id))
 				: ResponseUtil.notFound("NO hay un VEHICULO con ese ID ...");
 	}
@@ -114,7 +114,7 @@ public class VehiculoController {
 	 */
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Long id) {
 		if (vehiculoService.exists(id)) {
 			vehiculoService.delete(id);
 			return ResponseUtil.successDeleted("vehiculo ELIMINADO");
