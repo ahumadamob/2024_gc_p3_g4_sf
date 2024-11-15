@@ -5,8 +5,10 @@ import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.service.IRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +24,7 @@ import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 
 @RestController
 @RequestMapping(path="/restaurante")
@@ -72,7 +75,22 @@ public class RestauranteController {
         }
     }
 
-   
+ 
+ 
+    @PostMapping("/{restauranteId}/repartidor")
+    public ResponseEntity<?> asignarRepartidor(
+            @PathVariable Long restauranteId, 
+            @RequestBody Map<String,Long> repartidorRequest) {
+        
+        Long repartidorId = repartidorRequest.get("repartidorId");
+        
+        try {
+            Restaurante restauranteActualizado = restauranteService.asignarRepartidor(restauranteId, repartidorId);
+            return ResponseEntity.ok(restauranteActualizado);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+        }
     
     @GetMapping("/nombre/{nombre}")
     public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
@@ -100,5 +118,12 @@ public class RestauranteController {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Restaurante>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
+    }
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
+        List<Restaurante> restaurante = restauranteService.buscarPorNombre(nombre);
+        return restaurante.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron pedidos") :
+                ResponseUtil.success(restaurante);
     }
 }

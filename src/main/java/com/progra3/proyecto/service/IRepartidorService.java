@@ -6,12 +6,12 @@ import com.progra3.proyecto.entity.Repartidor;
 
 public interface IRepartidorService {
 	
-	public List<Repartidor> getAll();
-	public Repartidor getById (Long id);
-	public Repartidor save (Repartidor repartidor);
-	public void delete (Long id);
-	public boolean exists (Long id);
-	public boolean exists (String repartidor);
+	List<Repartidor> getAll();
+	Repartidor getById (Long id);
+	Repartidor save (Repartidor repartidor);
+	void delete (Long id);
+	boolean exists (Long id);
+	boolean exists (String repartidor);
 	List<Repartidor> buscarRepartidor(String nombre);
 	List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId);
 	

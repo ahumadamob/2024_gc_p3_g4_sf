@@ -21,7 +21,6 @@ public class RepartidorServiceImpl implements IRepartidorService {
 		return repo.findAll();
 	}
 	
-
     @Override
     public List<Repartidor> buscarRepartidor(String nombre) {
         return repo.findByNombre(nombre);
