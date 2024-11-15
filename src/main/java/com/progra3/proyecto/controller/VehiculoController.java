@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.service.IVehiculoService;
@@ -53,7 +54,7 @@ public class VehiculoController {
 	 */
 
 	@GetMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Long id) {
 		return vehiculoService.exists(id) ? ResponseUtil.success(vehiculoService.getById(id))
 				: ResponseUtil.notFound("NO hay un VEHICULO con ese ID ...");
 	}
@@ -146,7 +147,7 @@ public class VehiculoController {
 	 */
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Long id) {
 		if (vehiculoService.exists(id)) {
 			vehiculoService.delete(id);
 			return ResponseUtil.successDeleted("vehiculo ELIMINADO");
@@ -156,6 +157,23 @@ public class VehiculoController {
 	}
 	
 	
+	
+	@GetMapping("/{id}/restaurante")
+	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Integer id) {
+	    
+	    if (!vehiculoService.exists(id)) {
+	        return ResponseUtil.notFound("Vehículo no encontrado para el ID: " + id);
+	    }
+	   
+	    Restaurante restaurante = vehiculoService.getById(id).getRestaurante();
+
+	    if (restaurante == null) {
+	        return ResponseUtil.notFound("Restaurante no encontrado para el vehículo ID: " + id);
+	    }
+	    
+	    return ResponseUtil.success(restaurante);
+	}
+
 	// ===================================================================================================================
 	
 	
