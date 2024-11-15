@@ -1,6 +1,8 @@
 package com.progra3.proyecto.servicejpa;
 
+import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
+import com.progra3.proyecto.repository.RepartidorRepository;
 import com.progra3.proyecto.repository.RestauranteRepository;
 import com.progra3.proyecto.service.IRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,8 @@ import java.util.List;
 @Service
 public class RestauranteServiceImpl implements IRestauranteService {
 
+	@Autowired
+    private RepartidorRepository repartidorRepo;
 	@Autowired
 	private RestauranteRepository repo;
 	
@@ -41,4 +45,8 @@ public class RestauranteServiceImpl implements IRestauranteService {
     public List<Restaurante> buscarPorNombre(String nombre) {
         return repo.findByNombre(nombre);
         }
+	 @Override
+	    public List<Repartidor> getRepartidoresPorRestaurante(Long restauranteId) {
+	        return repartidorRepo.findByRestauranteId(restauranteId);
+	    }
 	}

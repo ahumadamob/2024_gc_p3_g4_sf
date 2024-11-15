@@ -3,7 +3,6 @@ package com.progra3.proyecto.service;
 import java.util.List;
 
 import com.progra3.proyecto.entity.Repartidor;
-import com.progra3.proyecto.entity.Vehiculo;
 
 public interface IRepartidorService {
 	

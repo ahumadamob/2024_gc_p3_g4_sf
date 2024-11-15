@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.service.IVehiculoService;
 import com.progra3.proyecto.util.APIResponse;
@@ -123,6 +124,23 @@ public class VehiculoController {
 	}
 	
 	
+	
+	@GetMapping("/{id}/restaurante")
+	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Integer id) {
+	    
+	    if (!vehiculoService.exists(id)) {
+	        return ResponseUtil.notFound("Vehículo no encontrado para el ID: " + id);
+	    }
+	   
+	    Restaurante restaurante = vehiculoService.getById(id).getRestaurante();
+
+	    if (restaurante == null) {
+	        return ResponseUtil.notFound("Restaurante no encontrado para el vehículo ID: " + id);
+	    }
+	    
+	    return ResponseUtil.success(restaurante);
+	}
+
 	// ===================================================================================================================
 	
 	

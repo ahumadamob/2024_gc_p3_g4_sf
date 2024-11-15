@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -18,9 +19,25 @@ public class Repartidor extends BaseEntity{
 	private String nombre;
 	private int telefono;
 	private String vehiculoAsignado;   
-	private String estado;             
-	@OneToOne
+	private String estado;
+	
+
+	 
+	
+	@ManyToOne
 	@JsonIgnore
+	private Restaurante restaurante;
+	
+	
+	public Restaurante getRestaurante() {
+		return restaurante;
+	}
+
+	public void setRestaurante(Restaurante restaurante) {
+		this.restaurante = restaurante;
+	}
+
+	@OneToOne
 	@JoinColumn(name = "vehiculo_id")
 	private Vehiculo vehiculo;
 

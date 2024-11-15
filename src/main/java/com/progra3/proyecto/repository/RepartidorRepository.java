@@ -12,7 +12,9 @@ import com.progra3.proyecto.entity.Vehiculo;
 public interface RepartidorRepository extends JpaRepository<Repartidor, Long>{
 	
 	List<Repartidor> findByNombre(String nombre);
+	List<Repartidor> findByRestauranteId(Long restauranteId);
+
 	 @Query("SELECT r.vehiculo FROM Repartidor r WHERE r.id = :repartidorId")
 	    Optional<Vehiculo> findVehiculoByRepartidorId(Long repartidorId);
 	
-	}
+}

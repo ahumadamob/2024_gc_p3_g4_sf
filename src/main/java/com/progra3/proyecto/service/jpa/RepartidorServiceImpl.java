@@ -65,4 +65,10 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	
 
 
+
+	
+	    @Override
+	    public List<Repartidor> buscarPorRestaurante(Long restauranteId) {
+	        return repo.findByRestauranteId(restauranteId);
+}
 }
