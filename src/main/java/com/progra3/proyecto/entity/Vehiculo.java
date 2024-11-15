@@ -2,24 +2,26 @@ package com.progra3.proyecto.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+//import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Vehiculo extends BaseEntity {
+ 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    
     private int id;
-
-    @NotEmpty(message = "El tipo no puede ser nulo ni estar vacío")
+    
+    @NotEmpty(message = "el TIPO NO puede ser NULO ni estar VACIO")
     private String tipo;
-
-    @NotEmpty(message = "El nombre no puede ser nulo ni estar vacío")
-    private String nombre;
-
+    
+    @NotEmpty(message = "el NOMBRE NO puede ser NULO ni estar VACIO")
+    private String nombre;      
     private String color;
 
     @ManyToOne
@@ -81,4 +83,3 @@ public class Vehiculo extends BaseEntity {
         this.restaurante = restaurante;
     }
 }
-

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.entity.Vehiculo;
+import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.service.IVehiculoService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
@@ -25,6 +26,9 @@ public class VehiculoController {
 
 	@Autowired
 	private IVehiculoService vehiculoService;
+	
+	@Autowired
+    private IRepartidorService repartidorService;
 
 	/*
 	 * @GetMapping public ResponseEntity<List<Vehiculo>> getAllVehiculos() {
@@ -50,7 +54,7 @@ public class VehiculoController {
 	 */
 
 	@GetMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> getVehiculoById(@PathVariable("id") Long id) {
 		return vehiculoService.exists(id) ? ResponseUtil.success(vehiculoService.getById(id))
 				: ResponseUtil.notFound("NO hay un VEHICULO con ese ID ...");
 	}
@@ -86,6 +90,35 @@ public class VehiculoController {
 		return vehiculoService.exists(vehiculo.getId()) ? ResponseUtil.badRequest("ya EXISTE un VEHICULO con ese ID")
 				: ResponseUtil.success(vehiculoService.save(vehiculo));
 	}
+	
+	
+	@PostMapping ("/{idVehiculo}/asignar-repartidor")
+	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Integer idVehiculo, 
+			                                                         @RequestBody Repartidor repartidor) {
+		// verifico q el VEHICULO exista y q este disponible
+		if (!vehiculoService.exists(idVehiculo)) {
+			return ResponseUtil.notFound("NO hay un VEHICULO con ese ID ...");
+		}
+		
+		// verifico q el REPARTIDOR exista
+		if (!repartidorService.exists(repartidor.getId())) {
+			return ResponseUtil.notFound("NO hay un REPARTIDOR con ese ID ...");
+		}
+		
+		// verifico q el VEHICULO este disponible o NO ASIGNADO a otro repartidor usando ExceptionHandler en linea 166
+		
+		// recupero vehiculo y repartidor de la bbdd
+		Vehiculo v = vehiculoService.getById(idVehiculo);
+		Repartidor r = repartidorService.getById(repartidor.getId());
+		
+		// asigno el vehiculo al repartidor
+		r.setVehiculo(v);
+		repartidorService.save(r);
+		 
+		return ResponseUtil.success(r);
+		
+	}
+	
 
 	// ======================================================================================================================
 
@@ -114,7 +147,7 @@ public class VehiculoController {
 	 */
 
 	@DeleteMapping("{id}")
-	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Vehiculo>> deleteVehiculo(@PathVariable("id") Long id) {
 		if (vehiculoService.exists(id)) {
 			vehiculoService.delete(id);
 			return ResponseUtil.successDeleted("vehiculo ELIMINADO");
@@ -147,6 +180,9 @@ public class VehiculoController {
 	@ExceptionHandler(Exception.class)
 	//manejo de excepciones de tipo Exception, que no es manejada por otro @ExceptionHandler
 	public ResponseEntity<APIResponse<Vehiculo>> handleException (Exception ex) {
+		if (ex.getMessage().contains("Duplicate entry")) {
+	        return ResponseUtil.badRequest("EXCEPCION !!! => el VEHICULO se encuentra ASIGNADO a OTRO REPARTIDOR ...");
+	    }
 		return ResponseUtil.badRequest("EXCEPCION !!! => " + ex.getMessage());
 	}
 	
