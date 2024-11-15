@@ -24,6 +24,10 @@ public class Vehiculo extends BaseEntity {
     private String nombre;      
     private String color;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id") 
+    private Usuario usuario;
+
     @ManyToOne 
     @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
@@ -60,6 +64,16 @@ public class Vehiculo extends BaseEntity {
     public void setColor(String color) {
         this.color = color;
     }
+
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+}
 
     public Restaurante getRestaurante() {
         return restaurante;
