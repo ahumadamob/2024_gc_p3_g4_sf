@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.repository.VehiculoRepository;
 import com.progra3.proyecto.service.IVehiculoService;
@@ -22,7 +23,7 @@ public class VehiculoServiceImpl implements IVehiculoService {
     }
 
     @Override
-    public Vehiculo getById(Integer id) {
+    public Vehiculo getById(Long id) {
         Optional<Vehiculo> vehiculo = vehiculoRepository.findById(id);
         return vehiculo.orElse(null); 
     }
@@ -33,12 +34,12 @@ public class VehiculoServiceImpl implements IVehiculoService {
 	}
 
 	@Override
-	public void delete(Integer id) {
+	public void delete(Long id) {
 		vehiculoRepository.deleteById(id);
 	}
 	
 	@Override
-	public boolean exists(Integer id) {
+	public boolean exists(Long id) {
 		return id == null ? false : vehiculoRepository.existsById(id);
 	}
 

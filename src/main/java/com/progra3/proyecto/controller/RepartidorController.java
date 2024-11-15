@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
@@ -73,6 +74,14 @@ public class RepartidorController {
         } else {
             return ResponseUtil.badRequest("NO hay ningun REGISTRO con ese ID");
         }
+    }
+
+    @GetMapping("/{id}/vehiculos")
+    public ResponseEntity<APIResponse<Object>> getVehiculosByRepartidorId(@PathVariable Long id) {
+        List<Vehiculo> vehiculo = service.obtenerVehiculosPorRepartidorId(id);
+        return vehiculo.isEmpty() ? 
+            ResponseUtil.notFound("No se encontraron vehículos para el repartidor especificado") : 
+            ResponseUtil.success(vehiculo);
     }
 
     @DeleteMapping("/{id}")

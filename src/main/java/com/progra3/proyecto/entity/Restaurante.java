@@ -28,21 +28,35 @@ public class Restaurante extends BaseEntity{
 		private int atencion;
 		 @NotBlank(message = "El estado es obligatorio")
 		private String estado;
-		 
-			//Relación
+		
 		 @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-		private List<Pedido> pedidos;
+		    private List<Pedido> pedidos;
 		 
 		@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
 		private List<Producto> productos;
 		
 		@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
-		private List<Repartidor> repartidores;;
+		private List<Repartidor> repartidores;
+		
+		public List<Repartidor> getRepartidores() {
+			return repartidores;
+		}
 
-			
+		public void setRepartidores(List<Repartidor> repartidores) {
+			this.repartidores = repartidores;
+		}
+
 		// Getters y Setters
 		public Long getId() {
 			return id;
+		}
+
+		public List<Producto> getProductos() {
+			return productos;
+		}
+
+		public void setProductos(List<Producto> productos) {
+			this.productos = productos;
 		}
 
 		public void setId(Long id) {

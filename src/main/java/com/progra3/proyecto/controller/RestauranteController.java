@@ -1,6 +1,8 @@
 package com.progra3.proyecto.controller;
 
+import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
+import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.service.IRestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,9 @@ public class RestauranteController {
 
     @Autowired
     private IRestauranteService restauranteService;
+    
+    @Autowired
+    private IRepartidorService repartidorService;
 
     @GetMapping
     public ResponseEntity<APIResponse<List<Restaurante>>> getAllRestaurante() {
@@ -63,17 +68,8 @@ public class RestauranteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse<Void>> deleteRestaurante(@PathVariable("id") Long id) {
         if (restauranteService.exists(id)) {
-            try {
-                // Desvincular repartidores (opcional, según tu lógica de negocio)
-                restauranteService.desvincularRepartidores(id);
-                // Eliminar el restaurante
-                restauranteService.delete(id);
-                return ResponseUtil.successDeleted("Se eliminó el restaurante con el id " + id);
-            } catch (DataIntegrityViolationException e) {
-                return ResponseUtil.badRequest("No se puede eliminar el restaurante porque tiene repartidores asociados.");
-            } catch (Exception e) {
-                return ResponseUtil.badRequest("Error al eliminar el restaurante: " + e.getMessage());
-            }
+            restauranteService.delete(id);
+            return ResponseUtil.successDeleted("Se eliminó el restaurante con el id " + id);
         } else {
             return ResponseUtil.badRequest("No se encontró el restaurante con el id " + id);
         }
@@ -96,8 +92,24 @@ public class RestauranteController {
         }
         }
     
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
+        List<Restaurante> restaurante = restauranteService.buscarPorNombre(nombre);
+        return restaurante.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron pedidos") :
+                ResponseUtil.success(restaurante);
+    }
+    @GetMapping("/{id}/repartidores")
+    public ResponseEntity<APIResponse<List<Repartidor>>> getRepartidoresPorRestaurante(@PathVariable("id") Long restauranteId) {
+        if (!restauranteService.exists(restauranteId)) {
+            return ResponseUtil.notFound("No se encontró el restaurante con id " + restauranteId);
+        }
 
-
+        List<Repartidor> repartidores = repartidorService.buscarPorRestaurante(restauranteId);
+        return repartidores.isEmpty() ? 
+            ResponseUtil.notFound("No se encontraron repartidores para este restaurante") :
+            ResponseUtil.success(repartidores);
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Restaurante>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());

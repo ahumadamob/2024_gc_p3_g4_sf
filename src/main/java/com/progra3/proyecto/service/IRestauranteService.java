@@ -1,5 +1,6 @@
 package com.progra3.proyecto.service;
 
+import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface IRestauranteService {
     List<Restaurante> buscarPorNombre(String nombre);
     Restaurante asignarRepartidor(Long restauranteId, Long repartidorId) throws Exception;
 	void desvincularRepartidores(Long id);
+    List<Repartidor> getRepartidoresPorRestaurante(Long restauranteId);
+   
   }

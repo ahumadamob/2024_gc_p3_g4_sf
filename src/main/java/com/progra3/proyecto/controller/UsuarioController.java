@@ -1,6 +1,7 @@
 package com.progra3.proyecto.controller;
 
 import com.progra3.proyecto.entity.Usuario;
+import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.service.IUsuarioService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import java.util.List;
 
 @RestController
@@ -73,7 +73,21 @@ public class UsuarioController {
             return ResponseUtil.notFound("No se encontró el usuario con el id " + id);
         }
     }
+    
+    // Obtener vehículos por ID de usuario
+    @GetMapping("/{id}/vehiculos")
+    public ResponseEntity<APIResponse<List<Vehiculo>>> getVehiculosByUsuarioId(@PathVariable Long id) {
+        if (usuarioService.exists(id)) {
+            List<Vehiculo> vehiculos = usuarioService.getVehiculosByUsuarioId(id);
+            return vehiculos.isEmpty() ? 
+                ResponseUtil.notFound("No se encontraron vehículos para el usuario con id " + id) : 
+                ResponseUtil.success(vehiculos);
+        } else {
+            return ResponseUtil.notFound("No se encontró el usuario con id " + id);
+        }
+    }
 
+    // Manejo de excepciones generales
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());
