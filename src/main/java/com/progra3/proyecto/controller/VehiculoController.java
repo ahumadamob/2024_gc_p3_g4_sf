@@ -87,13 +87,13 @@ public class VehiculoController {
 			return ResponseUtil.badRequest("ERRORES de VALIDACION");
 		}
 		System.out.println(vehiculo.getId() + " - " + vehiculo.getNombre() + " - " + vehiculo.getTipo());
-		return vehiculoService.exists(vehiculo.getId()) ? ResponseUtil.badRequest("ya EXISTE un VEHICULO con ese ID")
+		return vehiculoService.exists((long) vehiculo.getId()) ? ResponseUtil.badRequest("ya EXISTE un VEHICULO con ese ID")
 				: ResponseUtil.success(vehiculoService.save(vehiculo));
 	}
 	
 	
 	@PostMapping ("/{idVehiculo}/asignar-repartidor")
-	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Integer idVehiculo, 
+	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Long idVehiculo, 
 			                                                         @RequestBody Repartidor repartidor) {
 		// verifico q el VEHICULO exista y q este disponible
 		if (!vehiculoService.exists(idVehiculo)) {
@@ -133,7 +133,7 @@ public class VehiculoController {
 
 	@PutMapping
 	public ResponseEntity<APIResponse<Vehiculo>> updateVehiculo(@RequestBody Vehiculo vehiculo) {
-		return vehiculoService.exists(vehiculo.getId()) ? ResponseUtil.success(vehiculoService.save(vehiculo))
+		return vehiculoService.exists((long) vehiculo.getId()) ? ResponseUtil.success(vehiculoService.save(vehiculo))
 				: ResponseUtil.badRequest("NO hay ningun VEHICULO con ese ID");
 	}
 
@@ -159,7 +159,7 @@ public class VehiculoController {
 	
 	
 	@GetMapping("/{id}/restaurante")
-	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Long id) {
 	    
 	    if (!vehiculoService.exists(id)) {
 	        return ResponseUtil.notFound("Vehículo no encontrado para el ID: " + id);

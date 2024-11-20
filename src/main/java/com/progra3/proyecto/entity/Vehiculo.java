@@ -73,7 +73,7 @@ public class Vehiculo extends BaseEntity {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-}
+
 
     public Restaurante getRestaurante() {
         return restaurante;

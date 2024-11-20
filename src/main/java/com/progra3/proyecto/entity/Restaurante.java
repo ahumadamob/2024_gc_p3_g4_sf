@@ -38,27 +38,15 @@ public class Restaurante extends BaseEntity{
 		@OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval = true)
 		private List<Repartidor> repartidores;
 		
-		public List<Repartidor> getRepartidores() {
-			return repartidores;
-		}
-
-		public void setRepartidores(List<Repartidor> repartidores) {
-			this.repartidores = repartidores;
-		}
 
 		// Getters y Setters
 		public Long getId() {
 			return id;
 		}
 
-		public List<Producto> getProductos() {
-			return productos;
-		}
+	
 
-		public void setProductos(List<Producto> productos) {
-			this.productos = productos;
-		}
-
+	
 		public void setId(Long id) {
 			this.id = id;
 		}

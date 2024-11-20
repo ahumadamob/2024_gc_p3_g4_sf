@@ -24,9 +24,10 @@ public class VehiculoServiceImpl implements IVehiculoService {
 
     @Override
     public Vehiculo getById(Long id) {
-        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(id);
+        Optional<Vehiculo> vehiculo = vehiculoRepository.findById(id); 
         return vehiculo.orElse(null); 
     }
+
 
 	@Override
 	public Vehiculo save(Vehiculo vehiculo) {

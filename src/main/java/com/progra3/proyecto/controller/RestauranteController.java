@@ -25,7 +25,7 @@ import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
-
+//
 @RestController
 @RequestMapping(path="/restaurante")
 public class RestauranteController {
@@ -92,13 +92,7 @@ public class RestauranteController {
         }
         }
     
-    @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
-        List<Restaurante> restaurante = restauranteService.buscarPorNombre(nombre);
-        return restaurante.isEmpty() ? 
-                ResponseUtil.notFound("No se encontraron pedidos") :
-                ResponseUtil.success(restaurante);
-    }
+
     @GetMapping("/{id}/repartidores")
     public ResponseEntity<APIResponse<List<Repartidor>>> getRepartidoresPorRestaurante(@PathVariable("id") Long restauranteId) {
         if (!restauranteService.exists(restauranteId)) {

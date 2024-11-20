@@ -26,13 +26,8 @@ public class Repartidor extends BaseEntity{
 	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
 	@NotBlank(message = "El estado es obligatorio")
 	private String estado;             // (disponible, en camino, ocupado, etc.)
-	private String vehiculoAsignado;   
-	private String estado;
-	
+	  
 
-	@OneToOne
-	@JoinColumn(name = "vehiculo_id")
-	private Vehiculo vehiculo;
 
 	@ManyToOne
 	@JsonIgnore
@@ -55,13 +50,6 @@ public class Repartidor extends BaseEntity{
 		return vehiculo;
 	}
 
-	public Restaurante getRestaurante() {
-		return restaurante;
-	}
-
-	public void setRestaurante(Restaurante restaurante) {
-		this.restaurante = restaurante;
-	}
 
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
