@@ -67,6 +67,7 @@ public class RestauranteServiceImpl implements IRestauranteService {
 	@Override
 	public void desvincularRepartidores(Long id) {
 		// TODO Auto-generated method stub
+	}
 		
 	 @Override
 	    public List<Repartidor> getRepartidoresPorRestaurante(Long restauranteId) {

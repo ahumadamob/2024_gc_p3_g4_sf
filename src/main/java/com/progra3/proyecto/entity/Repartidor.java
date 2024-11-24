@@ -2,7 +2,6 @@ package com.progra3.proyecto.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,9 +25,7 @@ public class Repartidor extends BaseEntity{
 	private String vehiculoAsignado;   // Descripción o identificador del vehículo asignado al repartidor.
 	@NotBlank(message = "El estado es obligatorio")
 	private String estado;             // (disponible, en camino, ocupado, etc.)
-	private String vehiculoAsignado;   
-	private String estado;
-	
+
 
 	@OneToOne
 	@JoinColumn(name = "vehiculo_id")
@@ -47,20 +44,8 @@ public class Repartidor extends BaseEntity{
 		this.restaurante = restaurante;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "vehiculo_id")
-	private Vehiculo vehiculo;
-
 	public Vehiculo getVehiculo() {
 		return vehiculo;
-	}
-
-	public Restaurante getRestaurante() {
-		return restaurante;
-	}
-
-	public void setRestaurante(Restaurante restaurante) {
-		this.restaurante = restaurante;
 	}
 
 	public void setVehiculo(Vehiculo vehiculo) {

@@ -1,9 +1,19 @@
 package com.progra3.proyecto.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
@@ -15,10 +25,6 @@ import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
-
-import java.util.List;
-
-import javax.naming.spi.DirStateFactory.Result;
 
 @RestController
 @RequestMapping("/api/v1/project/vehiculo")
@@ -93,7 +99,7 @@ public class VehiculoController {
 	
 	
 	@PostMapping ("/{idVehiculo}/asignar-repartidor")
-	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Integer idVehiculo, 
+	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Long idVehiculo, 
 			                                                         @RequestBody Repartidor repartidor) {
 		// verifico q el VEHICULO exista y q este disponible
 		if (!vehiculoService.exists(idVehiculo)) {
@@ -159,7 +165,7 @@ public class VehiculoController {
 	
 	
 	@GetMapping("/{id}/restaurante")
-	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Integer id) {
+	public ResponseEntity<APIResponse<Restaurante>> getRestauranteByVehiculoId(@PathVariable("id") Long id) {
 	    
 	    if (!vehiculoService.exists(id)) {
 	        return ResponseUtil.notFound("Vehículo no encontrado para el ID: " + id);

@@ -1,15 +1,11 @@
 package com.progra3.proyecto.controller;
 
-import com.progra3.proyecto.entity.Repartidor;
-import com.progra3.proyecto.entity.Restaurante;
-import com.progra3.proyecto.service.IRepartidorService;
-import com.progra3.proyecto.service.IRestauranteService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Restaurante;
+import com.progra3.proyecto.service.IRepartidorService;
+import com.progra3.proyecto.service.IRestauranteService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 
 @RestController
 @RequestMapping(path="/restaurante")
@@ -119,11 +118,5 @@ public class RestauranteController {
     public ResponseEntity<APIResponse<Restaurante>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
     }
-    @GetMapping("/nombre/{nombre}")
-    public ResponseEntity<APIResponse<Object>> getRestaurantePorNombre(@PathVariable String nombre) {
-        List<Restaurante> restaurante = restauranteService.buscarPorNombre(nombre);
-        return restaurante.isEmpty() ? 
-                ResponseUtil.notFound("No se encontraron pedidos") :
-                ResponseUtil.success(restaurante);
-    }
+
 }

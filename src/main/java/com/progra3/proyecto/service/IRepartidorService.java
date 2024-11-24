@@ -3,6 +3,7 @@ package com.progra3.proyecto.service;
 import java.util.List;
 
 import com.progra3.proyecto.entity.Repartidor;
+import com.progra3.proyecto.entity.Vehiculo;
 
 public interface IRepartidorService {
 	
@@ -14,6 +15,7 @@ public interface IRepartidorService {
 	boolean exists (String repartidor);
 	List<Repartidor> buscarRepartidor(String nombre);
 	List<Vehiculo> obtenerVehiculosPorRepartidorId(Long repartidorId);
+	List<Repartidor> buscarPorRestaurante(Long restauranteId);
 	
 	
 
