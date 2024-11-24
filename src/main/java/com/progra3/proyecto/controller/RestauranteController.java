@@ -24,7 +24,6 @@ import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 //
 @RestController
 @RequestMapping(path="/restaurante")

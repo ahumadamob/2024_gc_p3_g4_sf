@@ -18,8 +18,6 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 @RestController
 @RequestMapping("/api/v1/project/vehiculo")
 public class VehiculoController {

@@ -1,4 +1,4 @@
-package com.progra3.proyecto.servicejpa;
+package com.progra3.proyecto.service.jpa;
 
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
