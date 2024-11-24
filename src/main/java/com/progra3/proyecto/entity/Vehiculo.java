@@ -15,7 +15,7 @@ public class Vehiculo extends BaseEntity {
  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)    
-    private int id;
+    private Long id;
     
     @NotEmpty(message = "el TIPO NO puede ser NULO ni estar VACIO")
     private String tipo;
@@ -33,11 +33,11 @@ public class Vehiculo extends BaseEntity {
     private Restaurante restaurante;
 
     // Getters y Setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -73,7 +73,6 @@ public class Vehiculo extends BaseEntity {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-}
 
     public Restaurante getRestaurante() {
         return restaurante;
