@@ -1,100 +1,52 @@
 package com.progra3.proyecto.controller;
 
-import com.progra3.proyecto.entity.Usuario;
-import com.progra3.proyecto.entity.Vehiculo;
-import com.progra3.proyecto.service.IUsuarioService;
-import com.progra3.proyecto.util.APIResponse;
-import com.progra3.proyecto.util.ResponseUtil;
 
-import jakarta.validation.ConstraintViolationException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.progra3.proyecto.entity.Usuario;
+import com.progra3.proyecto.service.IUsuarioService;
+import com.progra3.proyecto.exception.UsuarioConPedidosPendientesException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import java.util.regex.Pattern;
 
 @RestController
-@RequestMapping("/api/v1/project/usuario")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private IUsuarioService usuarioService;
+    private final IUsuarioService usuarioService;
 
-    // Obtener todos los usuarios
-    @GetMapping
-    public ResponseEntity<APIResponse<List<Usuario>>> getAllUsuarios() {
-        List<Usuario> usuarios = usuarioService.getAll();
-        return usuarios.isEmpty() ? 
-            ResponseUtil.notFound("No se encontraron usuarios") : 
-            ResponseUtil.success(usuarios);
+    public UsuarioController(IUsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    // Obtener usuario por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<APIResponse<Usuario>> getUsuarioById(@PathVariable Long id) {
-        if (usuarioService.exists(id)) {
-            Usuario usuario = usuarioService.getById(id);
-            return ResponseUtil.success(usuario);
-        } else {
-            return ResponseUtil.notFound("No se encontró el usuario con id " + id);
+    @PostMapping("/nuevo")
+    public ResponseEntity<String> crearUsuario(@RequestBody @Valid Usuario usuario) {
+        if (!isValidEmail(usuario.getEmail())) {
+            return ResponseEntity.badRequest().body("El correo electrónico no tiene un formato válido");
+        }
+        try {
+            usuarioService.crearUsuario(usuario);
+            return ResponseEntity.ok("Usuario creado correctamente");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al crear el usuario: " + e.getMessage());
         }
     }
 
-    // Crear nuevo usuario
-    @PostMapping
-    public ResponseEntity<APIResponse<Usuario>> createUsuario(@RequestBody Usuario usuario) {
-        if (usuarioService.exists(usuario.getId())) {
-            return ResponseUtil.badRequest("Ya existe un usuario con id " + usuario.getId());
-        } else {
-            Usuario savedUsuario = usuarioService.save(usuario);
-            return ResponseUtil.success(savedUsuario);
-        }
-    }
-
-    // Actualizar usuario por ID
-    @PutMapping("/{id}")
-    public ResponseEntity<APIResponse<Usuario>> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        if (usuarioService.exists(id)) {
-            usuario.setId(id);
-            Usuario updatedUsuario = usuarioService.save(usuario);
-            return ResponseUtil.success(updatedUsuario);
-        } else {
-            return ResponseUtil.notFound("No existe un usuario con id " + id);
-        }
-    }
-
-    // Eliminar usuario por ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse<Void>> deleteUsuario(@PathVariable Long id) {
-        if (usuarioService.exists(id)) {
-            usuarioService.delete(id);
-            return ResponseUtil.successDeleted("Se eliminó el usuario con el id " + id);
-        } else {
-            return ResponseUtil.notFound("No se encontró el usuario con el id " + id);
-        }
-    }
-    
-    // Obtener vehículos por ID de usuario
-    @GetMapping("/{id}/vehiculos")
-    public ResponseEntity<APIResponse<List<Vehiculo>>> getVehiculosByUsuarioId(@PathVariable Long id) {
-        if (usuarioService.exists(id)) {
-            List<Vehiculo> vehiculos = usuarioService.getVehiculosByUsuarioId(id);
-            return vehiculos.isEmpty() ? 
-                ResponseUtil.notFound("No se encontraron vehículos para el usuario con id " + id) : 
-                ResponseUtil.success(vehiculos);
-        } else {
-            return ResponseUtil.notFound("No se encontró el usuario con id " + id);
+    public ResponseEntity<String> eliminarUsuario(@PathVariable Long id) {
+        try {
+            usuarioService.eliminarUsuario(id);
+            return ResponseEntity.ok("Usuario eliminado correctamente");
+        } catch (UsuarioConPedidosPendientesException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error al eliminar el usuario: " + e.getMessage());
         }
     }
 
-    // Manejo de excepciones generales
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
-        return ResponseUtil.badRequest(ex.getMessage());
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
-        return ResponseUtil.handleConstraintException(ex);
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        return Pattern.compile(emailRegex).matcher(email).matches();
     }
 }

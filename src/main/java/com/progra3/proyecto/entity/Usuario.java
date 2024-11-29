@@ -1,8 +1,11 @@
 package com.progra3.proyecto.entity;
 
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
+import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -12,19 +15,22 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Usuario extends BaseEntity {
+public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String nombre;
+    private String email;
+    private LocalDate fechaRegistro;
 
-    // Relación OneToMany con Vehiculo
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore 
-    private List<Vehiculo> vehiculos;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Pedido> pedidos;
 
-    // Getters y Setters
+    public Usuario() {}
+
+    // Getters and Setters
+
     public Long getId() {
         return id;
     }
@@ -41,11 +47,31 @@ public class Usuario extends BaseEntity {
         this.nombre = nombre;
     }
 
-    public List<Vehiculo> getVehiculos() {
-        return vehiculos;
+    public String getEmail() {
+        return email;
     }
 
-    public void setVehiculos(List<Vehiculo> vehiculos) {
-        this.vehiculos = vehiculos;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+    
+    public int calcularAntiguedad() {
+        return LocalDate.now().getYear() - fechaRegistro.getYear();
     }
 }
