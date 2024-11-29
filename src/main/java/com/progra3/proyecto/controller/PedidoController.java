@@ -51,17 +51,11 @@ public class PedidoController {
                 ResponseUtil.success(pedido);
     }
 
-    // Método para crear un nuevo pedido
     @PostMapping("/nuevo")
     public ResponseEntity<APIResponse<Pedido>> createPedido(@RequestBody Pedido pedido) {
-        try {
-            // Intentar crear el nuevo pedido con validaciones
-            Pedido nuevoPedido = pedidoService.createNuevoPedido(pedido);
-            return ResponseUtil.success(nuevoPedido);  // Si todo es correcto, devolver el pedido creado
-        } catch (IllegalArgumentException e) {
-            // Capturar las excepciones de validación (restaurante habilitado o productos)
-            return ResponseUtil.badRequest(e.getMessage());
-        }
+        // Llamada al servicio sin try-catch, ahora gestionado por el @ExceptionHandler
+        Pedido nuevoPedido = pedidoService.createNuevoPedido(pedido);
+        return ResponseUtil.success(nuevoPedido);
     }
 
     @PutMapping("/{id}")
