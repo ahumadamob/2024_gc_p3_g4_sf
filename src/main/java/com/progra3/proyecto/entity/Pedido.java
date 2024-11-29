@@ -13,23 +13,31 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import java.util.Set;
+
 @Entity
 public class Pedido extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @NotNull
     private String cliente;
+
     @NotNull
-	private String estado;
+    private String estado;
+
     @NotNull
-	private String direccionEntrega;
+    private String direccionEntrega;
+
     @NotNull
-	private String metodoPago;
-	
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "fk_usuario")
-	private Usuario usuario;	
+    private String metodoPago;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "fk_usuario")
+    private Usuario usuario;
 
     @ManyToMany
     @JoinTable(
@@ -38,71 +46,85 @@ public class Pedido extends BaseEntity {
         inverseJoinColumns = @JoinColumn(name = "producto_id")
     )
     private Set<Producto> productos;
-    
+
     @ManyToOne
     private Restaurante restaurante;
 
-	public Long getId() {
-		return id;
-	}
+    @ManyToOne
+    @JoinColumn(name = "repartidor_id")
+    private Repartidor repartidor;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    // Getters y Setters
+    public Long getId() {
+        return id;
+    }
 
-	public String getCliente() {
-		return cliente;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCliente(String cliente) {
-		this.cliente = cliente;
-	}
+    public String getCliente() {
+        return cliente;
+    }
 
-	public String getEstado() {
-		return estado;
-	}
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
+    public String getEstado() {
+        return estado;
+    }
 
-	public String getDireccionEntrega() {
-		return direccionEntrega;
-	}
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 
-	public void setDireccionEntrega(String direccionEntrega) {
-		this.direccionEntrega = direccionEntrega;
-	}
+    public String getDireccionEntrega() {
+        return direccionEntrega;
+    }
 
-	public String getMetodoPago() {
-		return metodoPago;
-	}
+    public void setDireccionEntrega(String direccionEntrega) {
+        this.direccionEntrega = direccionEntrega;
+    }
 
-	public void setMetodoPago(String metodoPago) {
-		this.metodoPago = metodoPago;
-	}
+    public String getMetodoPago() {
+        return metodoPago;
+    }
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+    public Usuario getUsuario() {
+        return usuario;
+    }
 
-	public Set<Producto> getProductos() {
-		return productos;
-	}
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 
-	public void setProductos(Set<Producto> productos) {
-		this.productos = productos;
-	}
+    public Set<Producto> getProductos() {
+        return productos;
+    }
 
-	public Restaurante getRestaurante() {
-		return restaurante;
-	}
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos;
+    }
 
-	public void setRestaurante(Restaurante restaurante) {
-		this.restaurante = restaurante;
-	}
+    public Restaurante getRestaurante() {
+        return restaurante;
+    }
+
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
+
+    public Repartidor getRepartidor() {
+        return repartidor;
+    }
+
+    public void setRepartidor(Repartidor repartidor) {
+        this.repartidor = repartidor;
+    }
 }
+

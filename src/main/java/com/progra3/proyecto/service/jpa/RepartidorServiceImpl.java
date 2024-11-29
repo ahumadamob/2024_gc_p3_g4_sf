@@ -1,5 +1,7 @@
 package com.progra3.proyecto.service.jpa;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -32,9 +34,11 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	@Override
-	public Repartidor save(Repartidor repartidor) {
-		return repo.save(repartidor);
-	}
+    public Repartidor save(Repartidor repartidor) throws EdadMinimaException {
+        validarEdadMinima(repartidor.getFechaNacimiento());
+        repartidor.marcarComoInactivoSiInactividadProlongada();
+        return repo.save(repartidor);
+    }
 
 	@Override
 	public void delete(Long id) {
@@ -62,12 +66,22 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	}
 
 	
-
-
-
-	
 	    @Override
 	    public List<Repartidor> buscarPorRestaurante(Long restauranteId) {
 	        return repo.findByRestauranteId(restauranteId);
 	    }
+
+
+	    public Repartidor saveRepartidor(Repartidor repartidor) throws EdadMinimaException {
+	        validarEdadMinima(repartidor.getFechaNacimiento());
+	        return repo.save(repartidor);
+	    }
+
+	    private void validarEdadMinima(LocalDate fechaNacimiento) throws EdadMinimaException {
+	        int edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
+	        if (edad < 18) {
+	            throw new EdadMinimaException("El repartidor debe tener al menos 18 años.");
+	        }
+	    }
+
 }
