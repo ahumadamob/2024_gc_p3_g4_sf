@@ -22,10 +22,10 @@ import com.progra3.proyecto.util.ResponseUtil;
 import jakarta.validation.ConstraintViolationException;
 
 @Controller
-@RequestMapping (path="/api/pedido")
+@RequestMapping(path = "/api/pedido")
 public class PedidoController {
 
-	@Autowired
+    @Autowired
     private IPedidoService pedidoService;
 
     @GetMapping
@@ -42,7 +42,7 @@ public class PedidoController {
                 ResponseUtil.success(pedidoService.getById(id)) :
                 ResponseUtil.notFound("No se encontró el pedido con id " + id);
     }
-    
+
     @GetMapping("/cliente/{cliente}")
     public ResponseEntity<APIResponse<Object>> getPedidosPorCliente(@PathVariable String cliente) {
         List<Pedido> pedido = pedidoService.buscarPorCliente(cliente);
@@ -50,32 +50,38 @@ public class PedidoController {
                 ResponseUtil.notFound("No se encontraron pedidos") :
                 ResponseUtil.success(pedido);
     }
-    
 
-    @PostMapping
+    // Método para crear un nuevo pedido
+    @PostMapping("/nuevo")
     public ResponseEntity<APIResponse<Pedido>> createPedido(@RequestBody Pedido pedido) {
-        return pedidoService.exists(pedido.getId()) ? 
-                ResponseUtil.badRequest("Ya existe un pedido con id " + pedido.getId()) :
-                ResponseUtil.success(pedidoService.save(pedido));
+        try {
+            // Intentar crear el nuevo pedido con validaciones
+            Pedido nuevoPedido = pedidoService.createNuevoPedido(pedido);
+            return ResponseUtil.success(nuevoPedido);  // Si todo es correcto, devolver el pedido creado
+        } catch (IllegalArgumentException e) {
+            // Capturar las excepciones de validación (restaurante habilitado o productos)
+            return ResponseUtil.badRequest(e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<APIResponse<Pedido>> updatePedido(@RequestBody Pedido pedido) {
         return pedidoService.exists(pedido.getId()) ? 
-                ResponseUtil.success(pedidoService.save(pedido)) :  // save pedido actualizado
+                ResponseUtil.success(pedidoService.save(pedido)) :
                 ResponseUtil.badRequest("No existe un pedido con id " + pedido.getId());
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<APIResponse<Void>> deletePedido(@PathVariable("id") Long id) {
         if (pedidoService.exists(id)) {
-        	pedidoService.delete(id);
+            pedidoService.delete(id);
             return ResponseUtil.successDeleted("Se eliminó el pedido con el id " + id);
         } else {
             return ResponseUtil.badRequest("No se encontró el pedido con el id " + id);
         }
     }
-    
+
+    // Manejo de excepciones
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Pedido>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());
@@ -85,5 +91,4 @@ public class PedidoController {
     public ResponseEntity<APIResponse<Pedido>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
     }
-	
 }

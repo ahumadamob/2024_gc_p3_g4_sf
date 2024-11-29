@@ -14,5 +14,7 @@ public interface IPedidoService {
 	  boolean exists(Long id);
 	  boolean exists(String cliente);
 	  List<Pedido> buscarPorCliente(String cliente);
+	  Pedido createNuevoPedido(Pedido pedido);
+	
 	}
 
