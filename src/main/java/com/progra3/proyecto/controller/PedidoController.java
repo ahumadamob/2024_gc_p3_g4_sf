@@ -53,7 +53,6 @@ public class PedidoController {
 
     @PostMapping("/nuevo")
     public ResponseEntity<APIResponse<Pedido>> createPedido(@RequestBody Pedido pedido) {
-        // Llamada al servicio sin try-catch, ahora gestionado por el @ExceptionHandler
         Pedido nuevoPedido = pedidoService.createNuevoPedido(pedido);
         return ResponseUtil.success(nuevoPedido);
     }
@@ -84,5 +83,9 @@ public class PedidoController {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Pedido>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
+    }
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<APIResponse<Pedido>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseUtil.badRequest(ex.getMessage());
     }
 }
