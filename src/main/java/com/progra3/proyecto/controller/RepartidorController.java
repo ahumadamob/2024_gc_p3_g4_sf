@@ -21,6 +21,7 @@ import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/api/v1/project/repartidor")
@@ -39,8 +40,9 @@ public class RepartidorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<APIResponse<Repartidor>> getById(@PathVariable("id") Long id) {
-        if (service.exists(id)) {
-            return ResponseUtil.success(service.getById(id));
+        Repartidor repartidor = service.getById(id);
+        if (repartidor != null) {
+            return ResponseUtil.success(repartidor);
         } else {
             return ResponseUtil.notFound("NO hay un REPARTIDOR con ese ID ...");
         }
@@ -56,7 +58,6 @@ public class RepartidorController {
 
     @PostMapping
     public ResponseEntity<APIResponse<Repartidor>> create(@RequestBody Repartidor repartidor) {
-        System.out.println(repartidor.getId() + " - " + repartidor.getNombre() + " - " + repartidor.getVehiculo());
         if (service.exists(repartidor.getId())) {
             return ResponseUtil.badRequest("ya EXISTE un REPARTIDOR con ese ID");
         } else {
@@ -78,10 +79,10 @@ public class RepartidorController {
 
     @GetMapping("/{id}/vehiculos")
     public ResponseEntity<APIResponse<Object>> getVehiculosByRepartidorId(@PathVariable Long id) {
-        List<Vehiculo> vehiculo = service.obtenerVehiculosPorRepartidorId(id);
-        return vehiculo.isEmpty() ? 
+        List<Vehiculo> vehiculos = service.obtenerVehiculosPorRepartidorId(id);
+        return vehiculos.isEmpty() ? 
             ResponseUtil.notFound("No se encontraron vehículos para el repartidor especificado") : 
-            ResponseUtil.success(vehiculo);
+            ResponseUtil.success(vehiculos);
     }
 
     @DeleteMapping("/{id}")
@@ -93,14 +94,30 @@ public class RepartidorController {
             return ResponseUtil.badRequest("NO hay ningun REGISTRO con ese ID");
         }
     }
+    
+    @PostMapping("/api/repartidores/nuevo")
+    public ResponseEntity<APIResponse<Repartidor>> crearRepartidor(@RequestBody Repartidor repartidor) {
+        try {
+            
+            service.save(repartidor);
+            
+            String antiguedad = service.calcularAntiguedad(repartidor.getFechaContratacion());
+            return ResponseUtil.success(repartidor, "Repartidor creado con éxito. " + antiguedad);
+        } catch (EdadMinimaException e) {
+            return ResponseUtil.badRequest(e.getMessage());
+        }
+    }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
         return ResponseUtil.badRequest(ex.getMessage());
     }
-
+    
+    
+    
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
     }
 }
+
