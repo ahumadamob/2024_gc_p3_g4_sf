@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.progra3.proyecto.entity.Pedido;
+
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 
@@ -56,4 +58,15 @@ public class ResponseUtil {
         messages.add(message);
         return messages;
     }
+
+	public static ResponseEntity<APIResponse<Pedido>> success(Pedido nuevoPedido, String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static ResponseEntity<APIResponse<Pedido>> internalServerError(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

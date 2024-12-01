@@ -9,7 +9,7 @@ import com.progra3.proyecto.entity.Restaurante;
 public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
 
  List<Restaurante> findByNombre(String nombre);
-
+ boolean existsByIdAndEstado(Long id, String estado);
 
 
 }
