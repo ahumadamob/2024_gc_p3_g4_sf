@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.progra3.proyecto.exceptions.EdadMinimaException;
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.repository.RepartidorRepository;
@@ -73,7 +75,7 @@ public class RepartidorServiceImpl implements IRepartidorService {
 
 
 	    public Repartidor saveRepartidor(Repartidor repartidor) throws EdadMinimaException {
-	        validarEdadMinima(repartidor.getFechaNacimiento());
+	        this.validarEdadMinima(repartidor.getFechaNacimiento());
 	        return repo.save(repartidor);
 	    }
 
@@ -83,5 +85,11 @@ public class RepartidorServiceImpl implements IRepartidorService {
 	            throw new EdadMinimaException("El repartidor debe tener al menos 18 años.");
 	        }
 	    }
+
+		@Override
+		public int calcularAntiguedad(LocalDate fechaContratacion) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 
 }
