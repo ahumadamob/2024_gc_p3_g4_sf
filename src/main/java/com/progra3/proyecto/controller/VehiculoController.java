@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Restaurante;
 import com.progra3.proyecto.entity.Vehiculo;
+import com.progra3.proyecto.exceptions.EdadMinimaException;
 import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.service.IVehiculoService;
 import com.progra3.proyecto.util.APIResponse;
@@ -100,7 +101,7 @@ public class VehiculoController {
 	
 	@PostMapping ("/{idVehiculo}/asignar-repartidor")
 	public ResponseEntity<APIResponse<Repartidor>> asignarRepartidor(@PathVariable("idVehiculo") Long idVehiculo, 
-			                                                         @RequestBody Repartidor repartidor) {
+			                                                         @RequestBody Repartidor repartidor) throws EdadMinimaException {
 		// verifico q el VEHICULO exista y q este disponible
 		if (!vehiculoService.exists(idVehiculo)) {
 			return ResponseUtil.notFound("NO hay un VEHICULO con ese ID ...");
@@ -198,6 +199,13 @@ public class VehiculoController {
 	public ResponseEntity<APIResponse<Vehiculo>> handleConstraintViolationException (ConstraintViolationException ex) {
 		return ResponseUtil.handleConstraintException(ex);
 	}
+	
+	@ExceptionHandler(EdadMinimaException.class)
+	//manejo de excepciones cuando hay problemas de validación en los datos 
+	//(x ej.: un campo q no cumple con las restricciones definidas)
+	public ResponseEntity<APIResponse<Vehiculo>> handleEdadMinimaException (EdadMinimaException ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}	
 		
 	
 }

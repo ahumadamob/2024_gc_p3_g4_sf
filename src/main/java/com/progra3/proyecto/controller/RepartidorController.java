@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Vehiculo;
+import com.progra3.proyecto.exceptions.EdadMinimaException;
 import com.progra3.proyecto.service.IRepartidorService;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
@@ -57,7 +58,7 @@ public class RepartidorController {
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse<Repartidor>> create(@RequestBody Repartidor repartidor) {
+    public ResponseEntity<APIResponse<Repartidor>> create(@RequestBody Repartidor repartidor) throws EdadMinimaException {
         if (service.exists(repartidor.getId())) {
             return ResponseUtil.badRequest("ya EXISTE un REPARTIDOR con ese ID");
         } else {
@@ -67,7 +68,7 @@ public class RepartidorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<APIResponse<Repartidor>> update(@PathVariable("id") Long id, @RequestBody Repartidor repartidor) {
+    public ResponseEntity<APIResponse<Repartidor>> update(@PathVariable("id") Long id, @RequestBody Repartidor repartidor) throws EdadMinimaException {
         if (service.exists(id)) {
             repartidor.setId(id); 
             Repartidor updatedRepartidor = service.save(repartidor);
@@ -95,18 +96,21 @@ public class RepartidorController {
         }
     }
     
+    /*
     @PostMapping("/api/repartidores/nuevo")
     public ResponseEntity<APIResponse<Repartidor>> crearRepartidor(@RequestBody Repartidor repartidor) {
-        try {
+        
+    	try {
             
             service.save(repartidor);
             
-            String antiguedad = service.calcularAntiguedad(repartidor.getFechaContratacion());
+            int antiguedad = service.calcularAntiguedad(repartidor.getFechaContratacion());
             return ResponseUtil.success(repartidor, "Repartidor creado con éxito. " + antiguedad);
         } catch (EdadMinimaException e) {
             return ResponseUtil.badRequest(e.getMessage());
         }
     }
+    */
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
@@ -119,5 +123,12 @@ public class RepartidorController {
     public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
         return ResponseUtil.handleConstraintException(ex);
     }
+    
+	@ExceptionHandler(EdadMinimaException.class)
+	//manejo de excepciones cuando hay problemas de validación en los datos 
+	//(x ej.: un campo q no cumple con las restricciones definidas)
+	public ResponseEntity<APIResponse<Vehiculo>> handleEdadMinimaException (EdadMinimaException ex) {
+		return ResponseUtil.badRequest(ex.getMessage());
+	}	    
 }
 
