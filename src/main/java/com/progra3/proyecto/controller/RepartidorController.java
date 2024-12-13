@@ -18,6 +18,7 @@ import com.progra3.proyecto.entity.Repartidor;
 import com.progra3.proyecto.entity.Vehiculo;
 import com.progra3.proyecto.exceptions.EdadMinimaException;
 import com.progra3.proyecto.service.IRepartidorService;
+import com.progra3.proyecto.service.jpa.VehiculoNoDisponibleException;
 import com.progra3.proyecto.util.APIResponse;
 import com.progra3.proyecto.util.ResponseUtil;
 
@@ -60,12 +61,23 @@ public class RepartidorController {
     @PostMapping
     public ResponseEntity<APIResponse<Repartidor>> create(@RequestBody Repartidor repartidor) throws EdadMinimaException {
         if (service.exists(repartidor.getId())) {
-            return ResponseUtil.badRequest("ya EXISTE un REPARTIDOR con ese ID");
-        } else {
-            Repartidor savedRepartidor = service.save(repartidor);
-            return ResponseUtil.success(savedRepartidor);
+            return ResponseUtil.badRequest("Ya existe un repartidor con ese ID.");
         }
+
+        if (repartidor.getVehiculo() == null || !service.isVehiculoDisponible(repartidor.getVehiculo())) {
+            return ResponseUtil.badRequest("El vehículo asignado no está disponible o no se especificó vehículo.");
+        }
+
+        if (!service.isAntiguedadValida(repartidor.getFechaContratacion())) {
+            throw new EdadMinimaException("El repartidor debe tener al menos 1 año de antigüedad.");
+        }
+
+        Repartidor savedRepartidor = service.save(repartidor);
+
+        return ResponseUtil.success(savedRepartidor, "Repartidor creado con éxito.");
     }
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<APIResponse<Repartidor>> update(@PathVariable("id") Long id, @RequestBody Repartidor repartidor) throws EdadMinimaException {
@@ -95,6 +107,7 @@ public class RepartidorController {
             return ResponseUtil.badRequest("NO hay ningun REGISTRO con ese ID");
         }
     }
+  
     
     /*
     @PostMapping("/api/repartidores/nuevo")
@@ -111,13 +124,6 @@ public class RepartidorController {
         }
     }
     */
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<APIResponse<Void>> handleException(Exception ex) {
-        return ResponseUtil.badRequest(ex.getMessage());
-    }
-    
-    
     
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<APIResponse<Void>> handleConstraintViolationException(ConstraintViolationException ex) {
