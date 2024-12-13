@@ -63,14 +63,27 @@ public class Repartidor extends BaseEntity {
 	@OneToMany(mappedBy = "repartidor")
     private List<Pedido> pedidos;
 
-    public int calcularAntiguedad() {
-        return Period.between(fechaContratacion, LocalDate.now()).getYears();
+
+	private int numeroEntregas; 
+    private boolean activo;  
+
+    
+    public boolean isActivo() {
+        return activo;
     }
 
-    public void marcarComoInactivoSiInactividadProlongada() {
-        if (ultimaEntrega != null && Period.between(ultimaEntrega, LocalDate.now()).getDays() > 30) {
-            this.estado = "inactivo";
+    public void setActivo(boolean activo) {
+        this.activo = activo;
+    }
+    
+    public void marcarComoActivoSiCumpleCondiciones() {
+        if (this.numeroEntregas > 10) {
+            this.activo = true;
         }
+    }
+
+    public int getAntiguedad() {
+        return Period.between(fechaContratacion, LocalDate.now()).getYears();
     }
     
     public LocalDate getFechaNacimiento() {

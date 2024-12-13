@@ -23,7 +23,6 @@ public class Vehiculo extends BaseEntity {
     @NotEmpty(message = "el NOMBRE NO puede ser NULO ni estar VACIO")
     private String nombre;      
     private String color;
-
     @ManyToOne
     @JoinColumn(name = "usuario_id") 
     private Usuario usuario;
@@ -81,4 +80,9 @@ public class Vehiculo extends BaseEntity {
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
+
+	public boolean isDisponible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
