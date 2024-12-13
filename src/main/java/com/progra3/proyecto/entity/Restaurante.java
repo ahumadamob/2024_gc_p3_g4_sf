@@ -3,6 +3,8 @@ package com.progra3.proyecto.entity;
 import java.util.List;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -24,7 +26,8 @@ public class Restaurante extends BaseEntity{
 	    
 	    @NotBlank(message = "El horario de atención es obligatorio")
 		private String horarioAtencion;
-	    
+	    @Min(value = 1, message = "La atención debe ser al menos 1")
+	    @Max(value = 10, message = "La atención no puede ser mayor a 10")
 		private int atencion;
 		 @NotBlank(message = "El estado es obligatorio")
 		private String estado;

@@ -10,4 +10,7 @@ public interface IProductoService {
     void delete(Long id);
     boolean exists(Long id);
     List<Producto> buscarPorNombre(String nombre);
+    boolean validarExistenciaYStock(Long productoId, Long restauranteId);
+    Producto validarYAsignarAtributos(Producto producto);
+
   }

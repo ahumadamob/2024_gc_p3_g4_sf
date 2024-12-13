@@ -1,11 +1,13 @@
 package com.progra3.proyecto.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +20,7 @@ public class Producto extends BaseEntity{
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
+    
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(min = 3, max = 100, message = "El nombre debe tener entre 3 y 100 caracteres")
     private String nombre;
@@ -28,6 +30,8 @@ public class Producto extends BaseEntity{
     private String descripcion;
 
     @Min(value = 0, message = "El precio no puede ser negativo")
+    
+    @Max(value = 100000, message = "El precio no puede superar los 100,000")
     private float precio;
 
     @NotBlank(message = "La categoría no puede estar vacía")
@@ -47,6 +51,11 @@ public class Producto extends BaseEntity{
     @JoinColumn(name="restaurante_id")
     @NotNull(message = "El restaurante no puede ser nulo")
     private Restaurante restaurante;
+    
+    @Column(nullable = false)
+    @Min(value = 0, message = "El stock no puede ser negativo")
+    private int stock;
+
 
     // getters & setters
 
@@ -105,4 +114,21 @@ public class Producto extends BaseEntity{
     public void setRestaurante(Restaurante restaurante) {
         this.restaurante = restaurante;
     }
+
+	public CategoriaProducto getCategoriaproducto() {
+		return categoriaproducto;
+	}
+
+	public void setCategoriaproducto(CategoriaProducto categoriaproducto) {
+		this.categoriaproducto = categoriaproducto;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+    
 }
